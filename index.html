@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fit & Fight Club – Kickfit Boxing</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --dark: #111111;
+    --card: #1a1a1a;
+    --green: #7ec800;
+    --green-bright: #aaff00;
+    --white: #ffffff;
+    --gray: #888888;
+    --border: rgba(126,200,0,0.25);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 40px;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  nav img { height: 52px; }
+  nav ul { list-style: none; display: flex; gap: 32px; }
+  nav ul a {
+    color: var(--gray); text-decoration: none;
+    font-size: 13px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; transition: color .2s;
+  }
+  nav ul a:hover { color: var(--green); }
+  .nav-cta {
+    background: var(--green); color: var(--black) !important;
+    padding: 10px 22px; border-radius: 4px;
+  }
+  .nav-cta:hover { background: var(--green-bright) !important; color: var(--black) !important; }
+
+  /* ─── HERO ─── */
+  #hero {
+    height: 100vh; position: relative;
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: url('z7972282151374_0d36d97ec2cc2cfd6551f506f02c5c03.jpg') center/cover no-repeat;
+    filter: brightness(0.3);
+  }
+  .hero-bg::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, rgba(10,10,10,0) 40%, rgba(10,10,10,1));
+  }
+  .hero-content {
+    position: relative; text-align: center;
+    max-width: 800px; padding: 0 24px;
+  }
+  .hero-badge {
+    display: inline-block;
+    border: 1px solid var(--green);
+    color: var(--green);
+    font-size: 11px; letter-spacing: 3px;
+    text-transform: uppercase; padding: 6px 16px;
+    border-radius: 2px; margin-bottom: 24px;
+  }
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(64px, 10vw, 120px);
+    line-height: 0.9;
+    letter-spacing: -1px;
+  }
+  .hero-title span { color: var(--green); }
+  .hero-sub {
+    margin-top: 20px; font-size: 16px; color: #aaa;
+    font-weight: 300; letter-spacing: 1px;
+    line-height: 1.7;
+  }
+  .hero-ctas {
+    margin-top: 40px; display: flex; gap: 16px;
+    justify-content: center; flex-wrap: wrap;
+  }
+  .btn-primary {
+    background: var(--green); color: var(--black);
+    padding: 15px 36px; font-weight: 700; font-size: 14px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    border: none; cursor: pointer; border-radius: 4px;
+    text-decoration: none; transition: all .2s;
+  }
+  .btn-primary:hover { background: var(--green-bright); transform: translateY(-2px); }
+  .btn-outline {
+    background: transparent; color: var(--white);
+    padding: 15px 36px; font-weight: 600; font-size: 14px;
+    letter-spacing: 1.5px; text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.3); cursor: pointer; border-radius: 4px;
+    text-decoration: none; transition: all .2s;
+  }
+  .btn-outline:hover { border-color: var(--green); color: var(--green); }
+
+  /* ─── STATS BAR ─── */
+  .stats-bar {
+    background: var(--green);
+    padding: 24px 40px;
+    display: flex; justify-content: space-around; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 42px; color: var(--black); line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px; font-weight: 700; color: rgba(0,0,0,0.7);
+    letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px;
+  }
+  .stat-divider { width: 1px; height: 48px; background: rgba(0,0,0,0.2); }
+
+  /* ─── SECTION COMMON ─── */
+  section { padding: 100px 40px; }
+  .section-label {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--green); font-weight: 700; margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 5vw, 64px);
+    line-height: 1; letter-spacing: 1px;
+  }
+  .section-title span { color: var(--green); }
+  .section-desc {
+    margin-top: 16px; font-size: 15px; color: #888;
+    line-height: 1.8; max-width: 520px;
+  }
+
+  /* ─── ABOUT ─── */
+  #about { background: var(--dark); }
+  .about-grid {
+    max-width: 1200px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+  .about-img {
+    position: relative; border-radius: 4px; overflow: hidden;
+  }
+  .about-img img {
+    width: 100%; display: block;
+    filter: brightness(0.85);
+  }
+  .about-img-badge {
+    position: absolute; bottom: 24px; left: 24px;
+    background: var(--green); color: var(--black);
+    padding: 12px 20px; border-radius: 4px;
+  }
+  .about-img-badge strong {
+    display: block; font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; line-height: 1;
+  }
+  .about-img-badge span { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .about-features { margin-top: 40px; display: flex; flex-direction: column; gap: 20px; }
+  .feature-item {
+    display: flex; gap: 16px; align-items: flex-start;
+    padding: 20px; background: rgba(126,200,0,0.05);
+    border: 1px solid var(--border); border-radius: 4px;
+  }
+  .feature-icon {
+    font-size: 28px; flex-shrink: 0;
+    width: 52px; height: 52px;
+    background: rgba(126,200,0,0.1);
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 4px;
+  }
+  .feature-text h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+  .feature-text p { font-size: 13px; color: #777; line-height: 1.6; }
+
+  /* ─── VIDEO ─── */
+  #videos { background: var(--black); }
+  .videos-inner { max-width: 1200px; margin: 0 auto; }
+  .videos-header { text-align: center; margin-bottom: 60px; }
+  .videos-header .section-desc { margin: 16px auto 0; }
+  .video-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
+  }
+  .video-card {
+    border-radius: 4px; overflow: hidden;
+    border: 1px solid var(--border); position: relative;
+    background: var(--card);
+  }
+  .video-card video {
+    width: 100%; display: block;
+    aspect-ratio: 9/16; object-fit: cover;
+  }
+  .video-caption {
+    padding: 16px; font-size: 13px; color: #999;
+    font-weight: 600; letter-spacing: 0.5px;
+  }
+
+  /* ─── SPIN GAME ─── */
+  #spin-game {
+    background: var(--dark);
+    position: relative; overflow: hidden;
+  }
+  #spin-game::before {
+    content: 'SPIN TO WIN';
+    position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 15vw, 200px);
+    color: rgba(126,200,0,0.04);
+    white-space: nowrap; pointer-events: none; letter-spacing: 4px;
+  }
+  .spin-container {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center; position: relative; z-index: 1;
+  }
+  .spin-info .section-title { margin-bottom: 20px; }
+  .spin-steps { margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
+  .spin-step {
+    display: flex; gap: 16px; align-items: flex-start;
+  }
+  .step-num {
+    width: 36px; height: 36px; flex-shrink: 0;
+    border: 2px solid var(--green);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--green);
+  }
+  .step-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .step-text p { font-size: 13px; color: #777; }
+  .spin-event-date {
+    margin-top: 32px; padding: 16px 24px;
+    background: rgba(126,200,0,0.08); border: 1px solid var(--border);
+    border-radius: 4px; display: inline-flex; align-items: center; gap: 12px;
+  }
+  .event-date-label { font-size: 11px; color: var(--green); letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
+  .event-date-val { font-family: 'Bebas Neue', sans-serif; font-size: 32px; line-height: 1; }
+
+  /* ─── WHEEL ─── */
+  .wheel-area { display: flex; flex-direction: column; align-items: center; gap: 24px; }
+  .wheel-wrapper { position: relative; }
+  .wheel-pointer {
+    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+    width: 0; height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 26px solid var(--white);
+    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
+    z-index: 10;
+  }
+  #wheelCanvas {
+    border-radius: 50%;
+    box-shadow: 0 0 40px rgba(126,200,0,0.3), 0 0 80px rgba(126,200,0,0.1);
+    display: block;
+  }
+  .spin-btn-wrap { text-align: center; }
+  #spinBtn {
+    background: var(--green); color: var(--black);
+    border: none; cursor: pointer;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px; letter-spacing: 2px;
+    padding: 16px 48px; border-radius: 4px;
+    transition: all .2s; margin-bottom: 8px;
+    display: block; width: 100%;
+  }
+  #spinBtn:hover:not(:disabled) { background: var(--green-bright); transform: translateY(-2px); }
+  #spinBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .spin-note { font-size: 11px; color: #555; letter-spacing: 1px; }
+
+  /* ─── MODAL ─── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.88); backdrop-filter: blur(6px);
+    align-items: center; justify-content: center;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal-box {
+    background: var(--dark); border: 1px solid var(--border);
+    border-radius: 8px; padding: 48px 40px;
+    width: 90%; max-width: 460px; position: relative;
+    animation: modalIn .3s ease;
+  }
+  @keyframes modalIn {
+    from { opacity: 0; transform: scale(0.92) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .modal-prize {
+    text-align: center; margin-bottom: 32px;
+  }
+  .modal-prize-icon { font-size: 52px; margin-bottom: 12px; }
+  .modal-prize h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px; color: var(--green); line-height: 1;
+  }
+  .modal-prize p { font-size: 14px; color: #888; margin-top: 6px; }
+  .modal-form h4 {
+    font-size: 15px; font-weight: 700; margin-bottom: 20px;
+    text-align: center;
+  }
+  .form-group { margin-bottom: 16px; }
+  .form-group input {
+    width: 100%; padding: 14px 16px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 4px; color: var(--white);
+    font-size: 14px; font-family: 'Inter', sans-serif;
+    transition: border-color .2s; outline: none;
+  }
+  .form-group input:focus { border-color: var(--green); }
+  .form-group input::placeholder { color: #555; }
+  .btn-submit {
+    width: 100%; background: var(--green); color: var(--black);
+    border: none; cursor: pointer; padding: 15px;
+    font-family: 'Bebas Neue', sans-serif; font-size: 18px;
+    letter-spacing: 2px; border-radius: 4px;
+    transition: all .2s; margin-top: 8px;
+  }
+  .btn-submit:hover { background: var(--green-bright); }
+  .modal-close {
+    position: absolute; top: 16px; right: 20px;
+    background: none; border: none; color: #555;
+    font-size: 22px; cursor: pointer; transition: color .2s;
+  }
+  .modal-close:hover { color: var(--white); }
+
+  /* ─── SUCCESS ─── */
+  .success-msg { display: none; text-align: center; padding: 24px 0; }
+  .success-msg .check { font-size: 60px; margin-bottom: 16px; }
+  .success-msg h3 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--green); }
+  .success-msg p { font-size: 14px; color: #888; margin-top: 8px; line-height: 1.7; }
+
+  /* ─── REGISTER ─── */
+  #register { background: var(--black); }
+  .register-inner {
+    max-width: 900px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; align-items: center;
+  }
+  .register-form-box {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 8px; padding: 40px;
+  }
+  .register-form-box h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px; margin-bottom: 24px;
+  }
+  .register-form-box h3 span { color: var(--green); }
+  .contact-items { margin-top: 40px; display: flex; flex-direction: column; gap: 20px; }
+  .contact-item {
+    display: flex; gap: 16px; align-items: center;
+  }
+  .contact-icon {
+    width: 44px; height: 44px; background: rgba(126,200,0,0.1);
+    border: 1px solid var(--border); border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .contact-detail label { font-size: 11px; color: var(--green); letter-spacing: 1px; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 2px; }
+  .contact-detail span { font-size: 14px; color: #ccc; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #050505; padding: 40px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  footer img { height: 40px; }
+  footer p { font-size: 12px; color: #444; }
+  .footer-social { display: flex; gap: 12px; }
+  .footer-social a {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-size: 14px; color: #555; text-decoration: none; transition: all .2s;
+  }
+  .footer-social a:hover { border-color: var(--green); color: var(--green); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 12px 20px; }
+    nav ul { display: none; }
+    section { padding: 60px 20px; }
+    .about-grid, .spin-container, .register-inner { grid-template-columns: 1fr; gap: 40px; }
+    .video-grid { grid-template-columns: 1fr; }
+    .stats-bar { padding: 20px; gap: 8px; }
+    .stat-divider { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <img src="logo.jpg" alt="Fit & Fight Club">
+  <ul>
+    <li><a href="#about">Về Chúng Tôi</a></li>
+    <li><a href="#videos">Video</a></li>
+    <li><a href="#spin-game">Spin & Win</a></li>
+    <li><a href="#register" class="nav-cta">Đăng Ký Ngay</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge">⚡ Kickfit · Boxing · Fitness</div>
+    <h1 class="hero-title">FIT &<br><span>FIGHT</span><br>CLUB</h1>
+    <p class="hero-sub">Nơi bạn rèn luyện thể lực – xây dựng bản lĩnh<br>Lớp boxing dành cho mọi lứa tuổi</p>
+    <div class="hero-ctas">
+      <a href="#register" class="btn-primary">Đăng Ký Học Thử</a>
+      <a href="#spin-game" class="btn-outline">🎡 Quay Số Nhận Quà</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item">
+    <div class="stat-num">500+</div>
+    <div class="stat-label">Học Viên</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <div class="stat-num">5+</div>
+    <div class="stat-label">Năm Kinh Nghiệm</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <div class="stat-num">10+</div>
+    <div class="stat-label">HLV Chuyên Nghiệp</div>
+  </div>
+  <div class="stat-divider"></div>
+  <div class="stat-item">
+    <div class="stat-num">100%</div>
+    <div class="stat-label">Hài Lòng</div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid">
+    <div class="about-img">
+      <img src="bìa.jpg" alt="Fit & Fight Club Gym">
+      <div class="about-img-badge">
+        <strong>Fit & Fight</strong>
+        <span>Kickfit Club</span>
+      </div>
+    </div>
+    <div class="about-text">
+      <div class="section-label">Về Chúng Tôi</div>
+      <h2 class="section-title">KHÔNG CHỈ TẬP<br><span>MÀ CÒN CHIẾN</span></h2>
+      <p class="section-desc">Fit & Fight Club là câu lạc bộ boxing & kickfit chuyên nghiệp, nơi huấn luyện viên giàu kinh nghiệm đồng hành cùng bạn trên từng chặng đường chinh phục bản thân.</p>
+      <div class="about-features">
+        <div class="feature-item">
+          <div class="feature-icon">🥊</div>
+          <div class="feature-text">
+            <h4>Boxing & Kickfit</h4>
+            <p>Chương trình tập luyện từ cơ bản đến nâng cao, phù hợp mọi trình độ</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">💪</div>
+          <div class="feature-text">
+            <h4>Giảm Cân – Tăng Cơ</h4>
+            <p>Giáo trình khoa học kết hợp cardio & strength training hiệu quả</p>
+          </div>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">🏆</div>
+          <div class="feature-text">
+            <h4>HLV Chuyên Nghiệp</h4>
+            <p>Đội ngũ huấn luyện viên được đào tạo bài bản, nhiệt huyết và tận tâm</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEOS -->
+<section id="videos">
+  <div class="videos-inner">
+    <div class="videos-header">
+      <div class="section-label">Thực Tế Lớp Học</div>
+      <h2 class="section-title">XEM <span>CHÚNG TÔI</span> CHIẾN</h2>
+      <p class="section-desc">Cảm nhận không khí luyện tập sôi động tại Fit & Fight Club qua những khoảnh khắc thực tế</p>
+    </div>
+    <div class="video-grid">
+      <div class="video-card">
+        <video controls playsinline poster="bìa.jpg" id="vid1">
+          <!-- Thay SRC_VIDEO_1 bằng link video thật của bạn -->
+          <source src="SRC_VIDEO_1" type="video/mp4">
+        </video>
+        <div class="video-caption">⚡ Buổi tập Boxing cơ bản</div>
+      </div>
+      <div class="video-card">
+        <video controls playsinline poster="bìa.jpg" id="vid2">
+          <source src="SRC_VIDEO_2" type="video/mp4">
+        </video>
+        <div class="video-caption">🥊 Kickfit Cardio – Đốt Cháy Calo</div>
+      </div>
+      <div class="video-card">
+        <video controls playsinline poster="bìa.jpg" id="vid3">
+          <source src="SRC_VIDEO_3" type="video/mp4">
+        </video>
+        <div class="video-caption">💪 Training với HLV chuyên nghiệp</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPIN GAME -->
+<section id="spin-game">
+  <div class="spin-container">
+    <div class="spin-info">
+      <div class="section-label">Sự Kiện Đặc Biệt</div>
+      <h2 class="section-title">SPIN<br>TO <span>WIN</span></h2>
+      <p class="section-desc">Quay số may mắn và nhận những phần quà hấp dẫn từ Fit & Fight Club!</p>
+
+      <div class="spin-steps">
+        <div class="spin-step">
+          <div class="step-num">1</div>
+          <div class="step-text">
+            <h4>Điền thông tin của bạn</h4>
+            <p>Để lại tên, số điện thoại để nhận quà</p>
+          </div>
+        </div>
+        <div class="spin-step">
+          <div class="step-num">2</div>
+          <div class="step-text">
+            <h4>Nhấn QUAY ngay</h4>
+            <p>Vòng quay may mắn sẽ chọn phần thưởng cho bạn</p>
+          </div>
+        </div>
+        <div class="spin-step">
+          <div class="step-num">3</div>
+          <div class="step-text">
+            <h4>Nhận phần thưởng</h4>
+            <p>HLV sẽ liên hệ xác nhận và trao thưởng cho bạn</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="spin-event-date">
+        <div>
+          <div class="event-date-label">Ngày Sự Kiện</div>
+          <div class="event-date-val">26.06.2026</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="wheel-area">
+      <!-- FORM TRƯỚC KHI QUAY -->
+      <div id="preSpinForm" style="width:360px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:8px;">
+        <div style="font-size:13px;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:14px;">📋 Điền thông tin để quay</div>
+        <div class="form-group">
+          <input type="text" id="preSpinName" placeholder="Họ và tên *">
+        </div>
+        <div class="form-group">
+          <input type="tel" id="preSpinPhone" placeholder="Số điện thoại *">
+        </div>
+      </div>
+      <div class="wheel-wrapper">
+        <div class="wheel-pointer"></div>
+        <canvas id="wheelCanvas" width="360" height="360"></canvas>
+      </div>
+      <div class="spin-btn-wrap" style="width:360px">
+        <button id="spinBtn">🎡 QUAY NGAY</button>
+        <div class="spin-note">Quay bao nhiêu lần cũng được – mỗi lần đều có quà!</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REGISTER -->
+<section id="register">
+  <div class="register-inner">
+    <div>
+      <div class="section-label">Bắt Đầu Ngay</div>
+      <h2 class="section-title">ĐĂNG KÝ<br><span>HỌC THỬ</span><br>MIỄN PHÍ</h2>
+      <p class="section-desc">Trải nghiệm 1 buổi tập miễn phí cùng HLV chuyên nghiệp. Không cần kinh nghiệm – chỉ cần tinh thần chiến đấu!</p>
+      <div class="contact-items">
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div class="contact-detail">
+            <label>Địa Chỉ</label>
+            <span>Fit & Fight Kickfit Club</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div class="contact-detail">
+            <label>Hotline</label>
+            <span>090 213 75 50</span>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">⏰</div>
+          <div class="contact-detail">
+            <label>Giờ Tập</label>
+            <span>Sáng 6:00 – 8:00 · Chiều 17:00 – 21:00</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="register-form-box">
+      <h3>ĐĂNG KÝ <span>NGAY HÔM NAY</span></h3>
+      <div id="regFormWrap">
+        <div class="form-group">
+          <input type="text" id="regName" placeholder="Họ và tên *">
+        </div>
+        <div class="form-group">
+          <input type="tel" id="regPhone" placeholder="Số điện thoại *">
+        </div>
+        <div class="form-group">
+          <input type="text" id="regGoal" placeholder="Mục tiêu (giảm cân, học boxing...)">
+        </div>
+        <button class="btn-submit" onclick="submitRegister()">ĐĂNG KÝ HỌC THỬ MIỄN PHÍ</button>
+      </div>
+      <div id="regSuccess" style="display:none;text-align:center;padding:32px 0;">
+        <div style="font-size:52px;margin-bottom:12px">🎉</div>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--green)">Đăng Ký Thành Công!</h3>
+        <p style="font-size:14px;color:#888;margin-top:8px;line-height:1.7">HLV sẽ liên hệ bạn trong vòng 24 giờ<br>để xếp lịch buổi học thử miễn phí 🥊</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="logo.jpg" alt="Fit & Fight Club">
+  <p>© 2026 Fit & Fight Club · Kickfit Boxing · All rights reserved</p>
+  <div class="footer-social">
+    <a href="https://www.facebook.com/profile.php?id=61590051455444" target="_blank" title="Facebook">f</a>
+    <a href="#" title="TikTok">T</a>
+    <a href="#" title="Instagram">IG</a>
+  </div>
+</footer>
+
+<!-- PRIZE MODAL -->
+<div class="modal-overlay" id="prizeModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-prize">
+      <div class="modal-prize-icon" id="prizeIcon">🎁</div>
+      <h3 id="prizeName">Phần Thưởng</h3>
+      <p id="prizeDesc">Chúc mừng bạn đã trúng thưởng!</p>
+    </div>
+    <div id="modalFormArea">
+      <div class="modal-form">
+        <h4>🎉 Xác nhận thông tin nhận thưởng</h4>
+        <div style="background:rgba(126,200,0,0.08);border:1px solid rgba(126,200,0,0.25);border-radius:6px;padding:16px;margin-bottom:16px;">
+          <div style="font-size:12px;color:#7ec800;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:8px;">Thông tin của bạn</div>
+          <div style="font-size:15px;font-weight:600;" id="modalInfoName">—</div>
+          <div style="font-size:14px;color:#aaa;margin-top:4px;" id="modalInfoPhone">—</div>
+        </div>
+        <button class="btn-submit" onclick="submitSpin()">✅ XÁC NHẬN NHẬN THƯỞNG</button>
+        <div style="text-align:center;margin-top:10px;font-size:12px;color:#555;">HLV sẽ liên hệ bạn để trao thưởng</div>
+      </div>
+    </div>
+    <div class="success-msg" id="spinSuccess">
+      <div class="check">✅</div>
+      <h3>Đã Xác Nhận!</h3>
+      <p>HLV sẽ liên hệ bạn sớm nhất<br>để xác nhận và trao phần thưởng 🥊</p>
+    </div>
+  </div>
+</div>
+
+<script>
+const prizes = [
+  { label: "1 Tháng\nMiễn Phí",   icon: "🏆", desc: "Tập 1 tháng hoàn toàn miễn phí!",          color: "#7ec800" },
+  { label: "Giảm 50%\nHọc Phí",   icon: "💰", desc: "Giảm ngay 50% học phí tháng đầu tiên!",    color: "#1a1a1a" },
+  { label: "Áo Tập\nFit&Fight",    icon: "👕", desc: "Nhận ngay 1 áo tập thương hiệu Fit&Fight!", color: "#2a2a2a" },
+  { label: "Học Thử\nMiễn Phí",   icon: "🥊", desc: "1 buổi học thử miễn phí với HLV!",          color: "#7ec800" },
+  { label: "Bộ Băng\nTay Boxing",  icon: "🎀", desc: "Nhận 1 bộ băng tay boxing cao cấp!",        color: "#1a1a1a" },
+  { label: "Giảm 30%\nHọc Phí",   icon: "🎫", desc: "Giảm ngay 30% học phí tháng đầu tiên!",    color: "#2a2a2a" },
+  { label: "Nước Uống\nThể Thao",  icon: "🧴", desc: "Nhận 1 thùng nước uống thể thao!",          color: "#7ec800" },
+  { label: "Bình Nước\nFit&Fight", icon: "🍶", desc: "Nhận ngay bình nước thương hiệu!",          color: "#1a1a1a" },
+];
+
+const canvas = document.getElementById('wheelCanvas');
+const ctx = canvas.getContext('2d');
+const numSegments = prizes.length;
+const arc = (2 * Math.PI) / numSegments;
+let currentAngle = 0;
+let spinning = false;
+let wonPrize = null;
+
+function drawWheel(angle) {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  const cx = canvas.width / 2, cy = canvas.height / 2, r = cx - 6;
+  for (let i = 0; i < numSegments; i++) {
+    const start = angle + i * arc;
+    const end = start + arc;
+    ctx.beginPath();
+    ctx.moveTo(cx, cy);
+    ctx.arc(cx, cy, r, start, end);
+    ctx.closePath();
+    ctx.fillStyle = prizes[i].color;
+    ctx.fill();
+    ctx.strokeStyle = '#0a0a0a';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.rotate(start + arc / 2);
+    ctx.textAlign = 'right';
+    ctx.fillStyle = prizes[i].color === '#7ec800' ? '#000' : '#fff';
+    const lines = prizes[i].label.split('\n');
+    const fs = 13;
+    ctx.font = `bold ${fs}px Inter, sans-serif`;
+    lines.forEach((line, li) => {
+      const yOff = (li - (lines.length - 1) / 2) * (fs + 3);
+      ctx.fillText(line, r - 18, yOff + 4);
+    });
+    ctx.restore();
+  }
+  ctx.beginPath();
+  ctx.arc(cx, cy, 36, 0, 2 * Math.PI);
+  ctx.fillStyle = '#111';
+  ctx.fill();
+  ctx.strokeStyle = '#7ec800';
+  ctx.lineWidth = 3;
+  ctx.stroke();
+  ctx.fillStyle = '#7ec800';
+  ctx.font = 'bold 13px Inter, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText('QUAY', cx, cy);
+}
+
+drawWheel(0);
+
+document.getElementById('spinBtn').addEventListener('click', function() {
+  if (spinning) return;
+
+  const name = document.getElementById('preSpinName').value.trim();
+  const phone = document.getElementById('preSpinPhone').value.trim();
+  if (!name) {
+    document.getElementById('preSpinName').style.borderColor = '#ff4444';
+    document.getElementById('preSpinName').focus();
+    return;
+  }
+  if (!phone) {
+    document.getElementById('preSpinPhone').style.borderColor = '#ff4444';
+    document.getElementById('preSpinPhone').focus();
+    return;
+  }
+  document.getElementById('preSpinName').style.borderColor = '';
+  document.getElementById('preSpinPhone').style.borderColor = '';
+
+  spinning = true;
+  this.disabled = true;
+  this.textContent = '⏳ ĐANG QUAY...';
+
+  const extraSpins = 5 + Math.floor(Math.random() * 5);
+  const targetSegment = Math.floor(Math.random() * numSegments);
+  const targetAngle = (2 * Math.PI * extraSpins)
+    + (2 * Math.PI - targetSegment * arc - arc / 2)
+    - (Math.PI / 2);
+
+  const duration = 4000 + Math.random() * 2000;
+  const startTime = performance.now();
+  const startAngle = currentAngle;
+  const btn = this;
+
+  function animate(now) {
+    const elapsed = now - startTime;
+    const t = Math.min(elapsed / duration, 1);
+    const ease = 1 - Math.pow(1 - t, 4);
+    currentAngle = startAngle + targetAngle * ease;
+    drawWheel(currentAngle);
+    if (t < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      spinning = false;
+      wonPrize = prizes[targetSegment];
+      showPrizeModal(wonPrize, name, phone);
+      btn.textContent = '🎡 QUAY LẠI';
+      btn.disabled = false;
+    }
+  }
+  requestAnimationFrame(animate);
+});
+
+function showPrizeModal(prize, name, phone) {
+  document.getElementById('prizeIcon').textContent = prize.icon;
+  document.getElementById('prizeName').textContent = prize.label.replace('\n', ' ');
+  document.getElementById('prizeDesc').textContent = prize.desc;
+  document.getElementById('modalInfoName').textContent = '👤 ' + name;
+  document.getElementById('modalInfoPhone').textContent = '📞 ' + phone;
+  document.getElementById('prizeModal').classList.add('active');
+  document.getElementById('modalFormArea').style.display = 'block';
+  document.getElementById('spinSuccess').style.display = 'none';
+}
+
+function closeModal() {
+  document.getElementById('prizeModal').classList.remove('active');
+}
+
+document.getElementById('prizeModal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+
+function submitSpin() {
+  const name = document.getElementById('modalInfoName').textContent.replace('👤 ', '');
+  const phone = document.getElementById('modalInfoPhone').textContent.replace('📞 ', '');
+  const prize = document.getElementById('prizeName').textContent;
+
+  fetch('https://formspree.io/f/mbdeaqly', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ name, phone, prize, type: 'Spin to Win' })
+  }).then(() => {
+    document.getElementById('modalFormArea').style.display = 'none';
+    document.getElementById('spinSuccess').style.display = 'block';
+  }).catch(() => {
+    document.getElementById('modalFormArea').style.display = 'none';
+    document.getElementById('spinSuccess').style.display = 'block';
+  });
+}
+
+function submitRegister() {
+  const name = document.getElementById('regName').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const goal = document.getElementById('regGoal').value.trim();
+  if (!name || !phone) {
+    alert('Vui lòng điền tên và số điện thoại!');
+    return;
+  }
+
+  fetch('https://formspree.io/f/mbdeaqly', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify({ name, phone, goal, type: 'Đăng Ký Học Thử' })
+  }).then(() => {
+    document.getElementById('regFormWrap').style.display = 'none';
+    document.getElementById('regSuccess').style.display = 'block';
+  }).catch(() => {
+    document.getElementById('regFormWrap').style.display = 'none';
+    document.getElementById('regSuccess').style.display = 'block';
+  });
+}
+</script>
+</body>
+</html>
