@@ -1,859 +1,331 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Fit & Fight Club – Kickfit Boxing</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;600;700&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Đối soát Chị Bảo Anh</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
 <style>
-  :root {
-    --black: #0a0a0a;
-    --dark: #111111;
-    --card: #1a1a1a;
-    --green: #7ec800;
-    --green-bright: #aaff00;
-    --white: #ffffff;
-    --gray: #888888;
-    --border: rgba(126,200,0,0.25);
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--black);
-    color: var(--white);
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-  }
-
-  /* ─── NAV ─── */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 999;
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 40px;
-    background: rgba(10,10,10,0.92);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-  }
-  nav img { height: 52px; }
-  nav ul { list-style: none; display: flex; gap: 32px; }
-  nav ul a {
-    color: var(--gray); text-decoration: none;
-    font-size: 13px; font-weight: 600; letter-spacing: 1.5px;
-    text-transform: uppercase; transition: color .2s;
-  }
-  nav ul a:hover { color: var(--green); }
-  .nav-cta {
-    background: var(--green); color: var(--black) !important;
-    padding: 10px 22px; border-radius: 4px;
-  }
-  .nav-cta:hover { background: var(--green-bright) !important; color: var(--black) !important; }
-
-  /* ─── HERO ─── */
-  #hero {
-    height: 100vh; position: relative;
-    display: flex; align-items: center; justify-content: center;
-    overflow: hidden;
-  }
-  .hero-bg {
-    position: absolute; inset: 0;
-    background: url('z7972282151374_0d36d97ec2cc2cfd6551f506f02c5c03.jpg') center/cover no-repeat;
-    filter: brightness(0.3);
-  }
-  .hero-bg::after {
-    content: '';
-    position: absolute; inset: 0;
-    background: linear-gradient(to bottom, rgba(10,10,10,0) 40%, rgba(10,10,10,1));
-  }
-  .hero-content {
-    position: relative; text-align: center;
-    max-width: 800px; padding: 0 24px;
-  }
-  .hero-badge {
-    display: inline-block;
-    border: 1px solid var(--green);
-    color: var(--green);
-    font-size: 11px; letter-spacing: 3px;
-    text-transform: uppercase; padding: 6px 16px;
-    border-radius: 2px; margin-bottom: 24px;
-  }
-  .hero-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(64px, 10vw, 120px);
-    line-height: 0.9;
-    letter-spacing: -1px;
-  }
-  .hero-title span { color: var(--green); }
-  .hero-sub {
-    margin-top: 20px; font-size: 16px; color: #aaa;
-    font-weight: 300; letter-spacing: 1px;
-    line-height: 1.7;
-  }
-  .hero-ctas {
-    margin-top: 40px; display: flex; gap: 16px;
-    justify-content: center; flex-wrap: wrap;
-  }
-  .btn-primary {
-    background: var(--green); color: var(--black);
-    padding: 15px 36px; font-weight: 700; font-size: 14px;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    border: none; cursor: pointer; border-radius: 4px;
-    text-decoration: none; transition: all .2s;
-  }
-  .btn-primary:hover { background: var(--green-bright); transform: translateY(-2px); }
-  .btn-outline {
-    background: transparent; color: var(--white);
-    padding: 15px 36px; font-weight: 600; font-size: 14px;
-    letter-spacing: 1.5px; text-transform: uppercase;
-    border: 1px solid rgba(255,255,255,0.3); cursor: pointer; border-radius: 4px;
-    text-decoration: none; transition: all .2s;
-  }
-  .btn-outline:hover { border-color: var(--green); color: var(--green); }
-
-  /* ─── STATS BAR ─── */
-  .stats-bar {
-    background: var(--green);
-    padding: 24px 40px;
-    display: flex; justify-content: space-around; align-items: center;
-    flex-wrap: wrap; gap: 16px;
-  }
-  .stat-item { text-align: center; }
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 42px; color: var(--black); line-height: 1;
-  }
-  .stat-label {
-    font-size: 11px; font-weight: 700; color: rgba(0,0,0,0.7);
-    letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px;
-  }
-  .stat-divider { width: 1px; height: 48px; background: rgba(0,0,0,0.2); }
-
-  /* ─── SECTION COMMON ─── */
-  section { padding: 100px 40px; }
-  .section-label {
-    font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-    color: var(--green); font-weight: 700; margin-bottom: 12px;
-  }
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(40px, 5vw, 64px);
-    line-height: 1; letter-spacing: 1px;
-  }
-  .section-title span { color: var(--green); }
-  .section-desc {
-    margin-top: 16px; font-size: 15px; color: #888;
-    line-height: 1.8; max-width: 520px;
-  }
-
-  /* ─── ABOUT ─── */
-  #about { background: var(--dark); }
-  .about-grid {
-    max-width: 1200px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 80px; align-items: center;
-  }
-  .about-img {
-    position: relative; border-radius: 4px; overflow: hidden;
-  }
-  .about-img img {
-    width: 100%; display: block;
-    filter: brightness(0.85);
-  }
-  .about-img-badge {
-    position: absolute; bottom: 24px; left: 24px;
-    background: var(--green); color: var(--black);
-    padding: 12px 20px; border-radius: 4px;
-  }
-  .about-img-badge strong {
-    display: block; font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px; line-height: 1;
-  }
-  .about-img-badge span { font-size: 11px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
-  .about-features { margin-top: 40px; display: flex; flex-direction: column; gap: 20px; }
-  .feature-item {
-    display: flex; gap: 16px; align-items: flex-start;
-    padding: 20px; background: rgba(126,200,0,0.05);
-    border: 1px solid var(--border); border-radius: 4px;
-  }
-  .feature-icon {
-    font-size: 28px; flex-shrink: 0;
-    width: 52px; height: 52px;
-    background: rgba(126,200,0,0.1);
-    display: flex; align-items: center; justify-content: center;
-    border-radius: 4px;
-  }
-  .feature-text h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
-  .feature-text p { font-size: 13px; color: #777; line-height: 1.6; }
-
-  /* ─── VIDEO ─── */
-  #videos { background: var(--black); }
-  .videos-inner { max-width: 1200px; margin: 0 auto; }
-  .videos-header { text-align: center; margin-bottom: 60px; }
-  .videos-header .section-desc { margin: 16px auto 0; }
-  .video-grid {
-    display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;
-  }
-  .video-card {
-    border-radius: 4px; overflow: hidden;
-    border: 1px solid var(--border); position: relative;
-    background: var(--card);
-  }
-  .video-card video {
-    width: 100%; display: block;
-    aspect-ratio: 9/16; object-fit: cover;
-  }
-  .video-caption {
-    padding: 16px; font-size: 13px; color: #999;
-    font-weight: 600; letter-spacing: 0.5px;
-  }
-
-  /* ─── SPIN GAME ─── */
-  #spin-game {
-    background: var(--dark);
-    position: relative; overflow: hidden;
-  }
-  #spin-game::before {
-    content: 'SPIN TO WIN';
-    position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: clamp(80px, 15vw, 200px);
-    color: rgba(126,200,0,0.04);
-    white-space: nowrap; pointer-events: none; letter-spacing: 4px;
-  }
-  .spin-container {
-    max-width: 1100px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 80px; align-items: center; position: relative; z-index: 1;
-  }
-  .spin-info .section-title { margin-bottom: 20px; }
-  .spin-steps { margin-top: 32px; display: flex; flex-direction: column; gap: 16px; }
-  .spin-step {
-    display: flex; gap: 16px; align-items: flex-start;
-  }
-  .step-num {
-    width: 36px; height: 36px; flex-shrink: 0;
-    border: 2px solid var(--green);
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--green);
-  }
-  .step-text h4 { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
-  .step-text p { font-size: 13px; color: #777; }
-  .spin-event-date {
-    margin-top: 32px; padding: 16px 24px;
-    background: rgba(126,200,0,0.08); border: 1px solid var(--border);
-    border-radius: 4px; display: inline-flex; align-items: center; gap: 12px;
-  }
-  .event-date-label { font-size: 11px; color: var(--green); letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
-  .event-date-val { font-family: 'Bebas Neue', sans-serif; font-size: 32px; line-height: 1; }
-
-  /* ─── WHEEL ─── */
-  .wheel-area { display: flex; flex-direction: column; align-items: center; gap: 24px; }
-  .wheel-wrapper { position: relative; }
-  .wheel-pointer {
-    position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
-    width: 0; height: 0;
-    border-left: 14px solid transparent;
-    border-right: 14px solid transparent;
-    border-top: 26px solid var(--white);
-    filter: drop-shadow(0 2px 8px rgba(0,0,0,0.5));
-    z-index: 10;
-  }
-  #wheelCanvas {
-    border-radius: 50%;
-    box-shadow: 0 0 40px rgba(126,200,0,0.3), 0 0 80px rgba(126,200,0,0.1);
-    display: block;
-  }
-  .spin-btn-wrap { text-align: center; }
-  #spinBtn {
-    background: var(--green); color: var(--black);
-    border: none; cursor: pointer;
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 22px; letter-spacing: 2px;
-    padding: 16px 48px; border-radius: 4px;
-    transition: all .2s; margin-bottom: 8px;
-    display: block; width: 100%;
-  }
-  #spinBtn:hover:not(:disabled) { background: var(--green-bright); transform: translateY(-2px); }
-  #spinBtn:disabled { opacity: 0.5; cursor: not-allowed; }
-  .spin-note { font-size: 11px; color: #555; letter-spacing: 1px; }
-
-  /* ─── MODAL ─── */
-  .modal-overlay {
-    display: none; position: fixed; inset: 0; z-index: 9999;
-    background: rgba(0,0,0,0.88); backdrop-filter: blur(6px);
-    align-items: center; justify-content: center;
-  }
-  .modal-overlay.active { display: flex; }
-  .modal-box {
-    background: var(--dark); border: 1px solid var(--border);
-    border-radius: 8px; padding: 48px 40px;
-    width: 90%; max-width: 460px; position: relative;
-    animation: modalIn .3s ease;
-  }
-  @keyframes modalIn {
-    from { opacity: 0; transform: scale(0.92) translateY(20px); }
-    to { opacity: 1; transform: scale(1) translateY(0); }
-  }
-  .modal-prize {
-    text-align: center; margin-bottom: 32px;
-  }
-  .modal-prize-icon { font-size: 52px; margin-bottom: 12px; }
-  .modal-prize h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 36px; color: var(--green); line-height: 1;
-  }
-  .modal-prize p { font-size: 14px; color: #888; margin-top: 6px; }
-  .modal-form h4 {
-    font-size: 15px; font-weight: 700; margin-bottom: 20px;
-    text-align: center;
-  }
-  .form-group { margin-bottom: 16px; }
-  .form-group input {
-    width: 100%; padding: 14px 16px;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 4px; color: var(--white);
-    font-size: 14px; font-family: 'Inter', sans-serif;
-    transition: border-color .2s; outline: none;
-  }
-  .form-group input:focus { border-color: var(--green); }
-  .form-group input::placeholder { color: #555; }
-  .btn-submit {
-    width: 100%; background: var(--green); color: var(--black);
-    border: none; cursor: pointer; padding: 15px;
-    font-family: 'Bebas Neue', sans-serif; font-size: 18px;
-    letter-spacing: 2px; border-radius: 4px;
-    transition: all .2s; margin-top: 8px;
-  }
-  .btn-submit:hover { background: var(--green-bright); }
-  .modal-close {
-    position: absolute; top: 16px; right: 20px;
-    background: none; border: none; color: #555;
-    font-size: 22px; cursor: pointer; transition: color .2s;
-  }
-  .modal-close:hover { color: var(--white); }
-
-  /* ─── SUCCESS ─── */
-  .success-msg { display: none; text-align: center; padding: 24px 0; }
-  .success-msg .check { font-size: 60px; margin-bottom: 16px; }
-  .success-msg h3 { font-family: 'Bebas Neue', sans-serif; font-size: 32px; color: var(--green); }
-  .success-msg p { font-size: 14px; color: #888; margin-top: 8px; line-height: 1.7; }
-
-  /* ─── REGISTER ─── */
-  #register { background: var(--black); }
-  .register-inner {
-    max-width: 900px; margin: 0 auto;
-    display: grid; grid-template-columns: 1fr 1fr;
-    gap: 80px; align-items: center;
-  }
-  .register-form-box {
-    background: var(--card); border: 1px solid var(--border);
-    border-radius: 8px; padding: 40px;
-  }
-  .register-form-box h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 28px; margin-bottom: 24px;
-  }
-  .register-form-box h3 span { color: var(--green); }
-  .contact-items { margin-top: 40px; display: flex; flex-direction: column; gap: 20px; }
-  .contact-item {
-    display: flex; gap: 16px; align-items: center;
-  }
-  .contact-icon {
-    width: 44px; height: 44px; background: rgba(126,200,0,0.1);
-    border: 1px solid var(--border); border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 20px; flex-shrink: 0;
-  }
-  .contact-detail label { font-size: 11px; color: var(--green); letter-spacing: 1px; text-transform: uppercase; font-weight: 700; display: block; margin-bottom: 2px; }
-  .contact-detail span { font-size: 14px; color: #ccc; }
-
-  /* ─── FOOTER ─── */
-  footer {
-    background: #050505; padding: 40px;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    display: flex; align-items: center; justify-content: space-between;
-    flex-wrap: wrap; gap: 16px;
-  }
-  footer img { height: 40px; }
-  footer p { font-size: 12px; color: #444; }
-  .footer-social { display: flex; gap: 12px; }
-  .footer-social a {
-    width: 36px; height: 36px;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-size: 14px; color: #555; text-decoration: none; transition: all .2s;
-  }
-  .footer-social a:hover { border-color: var(--green); color: var(--green); }
-
-  /* ─── RESPONSIVE ─── */
-  @media (max-width: 900px) {
-    nav { padding: 12px 20px; }
-    nav ul { display: none; }
-    section { padding: 60px 20px; }
-    .about-grid, .spin-container, .register-inner { grid-template-columns: 1fr; gap: 40px; }
-    .video-grid { grid-template-columns: 1fr; }
-    .stats-bar { padding: 20px; gap: 8px; }
-    .stat-divider { display: none; }
-  }
+/* VOICE: a calm boutique statement of account — clear, polite, numbers first
+   IDEA: a store's end-of-period ledger slip: money in, money spent, balance due
+   PICTURE: a large budget-vs-spend meter with the balance figure, then monthly spend bars
+   COLOUR and TYPE: deep plum ground for the header, rose accent for fees, teal for ads; Be Vietnam Pro
+   LAYOUT: one 760px column; summary band, transfers, allocation, ads by period, acceptance */
+:root{color-scheme:light dark;
+  --bg:light-dark(#faf7f8,#151114);--card:light-dark(#fff,#1e181c);--ink:light-dark(#22161d,#f1e9ee);
+  --mut:light-dark(#6e5d67,#ab99a4);--line:light-dark(#ece2e7,#33282f);
+  --hero:linear-gradient(135deg,#ff7aa8 0%,#ff9a8b 55%,#ffc785 100%);--heroink:#fff;--heromut:#fff3f6;
+  --fee:light-dark(#c2457a,#e47aa6);--learn:light-dark(#8a5bb5,#b38ee0);--ads:light-dark(#178a7a,#43c3ad);--due:light-dark(#c2402f,#f07a68)}
+:root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
+*{box-sizing:border-box;min-width:0}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 "Be Vietnam Pro",system-ui,sans-serif;overflow-x:clip}
+.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.hero{background:var(--hero);color:var(--heroink);padding:clamp(28px,5vw,56px) max(5vw,16px) clamp(84px,9vw,110px);position:relative;overflow:hidden}
+:root[data-theme=dark] .hero{filter:saturate(.85) brightness(.82)}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]) .hero{filter:saturate(.85) brightness(.82)}}
+.wrap{max-width:760px;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 170px;gap:20px;align-items:center;position:relative}
+.hero p{margin:0;color:var(--heromut);font-size:14px;font-weight:500}
+h1{font-size:clamp(28px,5vw,42px);line-height:1.08;margin:6px 0 10px;text-wrap:balance;text-shadow:0 2px 12px rgba(160,40,80,.25)}
+.hello{display:inline-block;background:rgba(255,255,255,.25);padding:4px 12px;border-radius:99px;font-size:13px;font-weight:600}
+.bag{width:170px;height:170px}
+.bag .sp{animation:tw 2.4s ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+.bag .sp:nth-of-type(2){animation-delay:.8s}.bag .sp:nth-of-type(3){animation-delay:1.6s}
+@keyframes tw{50%{opacity:.25;transform:scale(.6)}}
+@media(prefers-reduced-motion:reduce){.bag .sp{animation:none}}
+.conf{position:absolute;border-radius:50%;opacity:.35;background:#fff}
+.card{box-shadow:0 10px 30px -18px rgba(200,60,110,.35)}
+main{position:relative;z-index:1;max-width:760px;margin:-64px auto 0;padding:0 max(4vw,12px) 48px;display:flex;flex-direction:column;gap:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,3vw,28px)}
+h2{font-size:19px;margin:0 0 14px}
+.due{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px 20px;align-items:end}
+.due .lab{color:var(--mut);font-size:14px}
+.due .big{font-size:clamp(30px,6.5vw,46px);font-weight:800;line-height:1.05;color:var(--ink)}
+.soft{margin-top:10px;font-size:15px;color:var(--mut)}.soft b{color:var(--ink)}.soft b:last-child{color:var(--fee)}
+.meter{margin:22px 0 8px;display:grid;gap:10px}
+.row{display:grid;grid-template-columns:120px minmax(0,1fr) 128px;gap:12px;align-items:center;font-size:14px}
+.track{height:18px;border-radius:9px;background:var(--line);overflow:hidden;position:relative}
+.track i{display:block;height:100%;border-radius:9px}
+.row b{text-align:right}
+.kpis{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px}
+.kpi{border-top:1px solid var(--line);padding-top:10px}
+.kpi span{display:block;color:var(--mut);font-size:13px}.kpi b{font-size:20px}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{text-align:left;color:var(--mut);font-weight:500;font-size:13px;padding:0 8px 8px;border-bottom:1px solid var(--line)}
+td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+th:last-child,td:last-child{text-align:right}
+tr.sum td{font-weight:700;border-bottom:0}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 9px;border-radius:99px;margin:2px 4px 0 0;white-space:nowrap}
+.t-fee{color:var(--fee);background:color-mix(in srgb,var(--fee) 13%,transparent)}
+.t-learn{color:var(--learn);background:color-mix(in srgb,var(--learn) 14%,transparent)}
+.t-ads{color:var(--ads);background:color-mix(in srgb,var(--ads) 13%,transparent)}
+.sub{display:block;color:var(--mut);font-size:13px}
+.split{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:4px 0 14px}
+.legend{display:grid;gap:8px}
+.legend div{display:flex;justify-content:space-between;gap:12px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:8px}
+.bars{display:grid;gap:10px;margin-top:4px}
+.calc td{padding:9px 8px}
+.calc tr.sum td{color:var(--due);font-size:18px;border-top:2px solid var(--ink)}
+.note{color:var(--mut);font-size:13px;margin:12px 0 0}
+.sign{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px;text-align:center;font-size:14px}
+.sign div{padding-top:56px;border-bottom:1px dashed var(--line);padding-bottom:6px}
+footer{color:var(--mut);font-size:13px;text-align:center}
+@media(max-width:600px){
+  .wrap{grid-template-columns:1fr}.bag{display:none}
+  .due{grid-template-columns:1fr}.row{grid-template-columns:84px minmax(0,1fr);}.row b{grid-column:1/-1;text-align:left;margin-top:-6px}
+  .kpis{grid-template-columns:1fr 1fr}table{font-size:14px}
+  .stack thead{display:none}.stack tr{display:grid;padding-block:8px;border-bottom:1px solid var(--line)}
+  .stack td{display:flex;justify-content:space-between;gap:12px;border:0;padding:3px 0;text-align:right}
+  .stack td::before{content:attr(data-l);color:var(--mut);font-size:13px;text-align:left}
+  .stack tr.sum td{padding-top:8px}}
+.steps{display:flex;flex-wrap:wrap;align-items:stretch;gap:10px;margin:20px 0 4px}
+.step{flex:1 1 150px;display:flex;flex-direction:column;gap:4px;padding:12px 14px;border-radius:14px;background:color-mix(in srgb,var(--fee) 7%,transparent);color:inherit;text-decoration:none;border:1px solid var(--line)}
+.step.tot{background:color-mix(in srgb,var(--due) 10%,transparent)}
+.plus{align-self:center;font-size:22px;font-weight:700;color:var(--mut)}
+.pill{font-weight:700;font-size:14px}
+.neg{color:var(--fee)}.pos{color:var(--ads)}
+.kpis{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.rhead{display:flex;align-items:center;gap:14px;margin-bottom:6px}
+.rhead h2{margin:0}.rbal{margin-left:auto;font-size:18px}
+.badge{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:20px;color:#fff;background:linear-gradient(135deg,#ff7aa8,#ffb27a);flex:none}
+h3{font-size:15px;margin:22px 0 8px;color:var(--mut);font-weight:600}
+details{margin-top:18px;border-top:1px dashed var(--line);padding-top:14px}
+summary{cursor:pointer;font-weight:700;color:var(--fee);min-height:44px;display:flex;align-items:center}
+.camps{font-size:14px;margin-top:6px}.on{color:var(--ads);font-weight:600}
+.am{display:flex;align-items:center;justify-content:center;min-height:48px;margin-top:20px;padding:0 20px;border-radius:99px;font-weight:700;text-decoration:none;color:#fff;background:linear-gradient(135deg,#1877f2,#5b8def);text-align:center}
+.am.sm{display:inline-flex;min-height:44px;margin-top:14px;font-size:14px}
+.am:focus-visible{outline:3px solid var(--learn);outline-offset:2px}
+.copy{margin-top:14px;min-height:44px;padding:0 18px;border-radius:99px;border:0;font:600 14px "Be Vietnam Pro",sans-serif;background:var(--fee);color:#fff;cursor:pointer}
+.copy:focus-visible,summary:focus-visible,.step:focus-visible{outline:3px solid var(--learn);outline-offset:2px}
+@media(max-width:600px){.camps td:first-child{display:block;text-align:left;font-weight:600}.camps td:first-child::before{content:none}.camps .sub{font-weight:400}.kpis{grid-template-columns:1fr 1fr!important}.plus{display:none}.rbal{font-size:15px}}
 </style>
 </head>
 <body>
-
-<!-- NAV -->
-<nav>
-  <img src="logo.jpg" alt="Fit & Fight Club">
-  <ul>
-    <li><a href="#about">Về Chúng Tôi</a></li>
-    <li><a href="#videos">Video</a></li>
-    <li><a href="#spin-game">Spin & Win</a></li>
-    <li><a href="#register" class="nav-cta">Đăng Ký Ngay</a></li>
-  </ul>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-content">
-    <div class="hero-badge">⚡ Kickfit · Boxing · Fitness</div>
-    <h1 class="hero-title">FIT &<br><span>FIGHT</span><br>CLUB</h1>
-    <p class="hero-sub">Nơi bạn rèn luyện thể lực – xây dựng bản lĩnh<br>Lớp boxing dành cho mọi lứa tuổi</p>
-    <div class="hero-ctas">
-      <a href="#register" class="btn-primary">Đăng Ký Học Thử</a>
-      <a href="#spin-game" class="btn-outline">🎡 Quay Số Nhận Quà</a>
-    </div>
+<header class="hero">
+  <span class="conf" style="width:120px;height:120px;left:-30px;top:-40px"></span>
+  <span class="conf" style="width:60px;height:60px;right:22%;bottom:30px"></span>
+  <span class="conf" style="width:18px;height:18px;left:42%;top:26px"></span>
+  <div class="wrap">
+  <div>
+    <span class="hello">Style by BaoAnh · Sao kê quảng cáo</span>
+    <h1>Chào chị Hằng Moon! Đây là sao kê tiền quảng cáo của Style by BaoAnh</h1>
+    <p id="h-meta"></p>
+    <p style="margin-top:6px">Cảm ơn chị đã tin tưởng đồng hành cùng Tâm ạ. Mọi số liệu bên dưới lấy trực tiếp từ Meta, chị bấm vào là kiểm tra được.</p>
   </div>
-</section>
+  <svg class="bag" viewBox="0 0 170 170" aria-hidden="true">
+    <ellipse cx="85" cy="152" rx="52" ry="8" fill="rgba(120,30,60,.18)"/>
+    <path d="M62 62 C62 34 108 34 108 62" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+    <path d="M38 58 H132 L140 146 H30 Z" fill="#fff"/>
+    <path d="M38 58 H132 L134 78 H36 Z" fill="#ffe1ea"/>
+    <path d="M30 146 H140 L139 136 H31 Z" fill="#ffd2df"/>
+    <circle cx="64" cy="70" r="5" fill="#ff7aa8"/><circle cx="106" cy="70" r="5" fill="#ff7aa8"/>
+    <text x="85" y="118" text-anchor="middle" font-family="Be Vietnam Pro,sans-serif" font-weight="800" font-size="26" fill="#ff6f96">BA</text>
+    <path class="sp" d="M148 30 l4 10 10 4 -10 4 -4 10 -4 -10 -10 -4 10 -4z" fill="#fff"/>
+    <path class="sp" d="M20 34 l3 7 7 3 -7 3 -3 7 -3 -7 -7 -3 7 -3z" fill="#fff"/>
+    <path class="sp" d="M150 100 l2.5 6 6 2.5 -6 2.5 -2.5 6 -2.5 -6 -6 -2.5 6 -2.5z" fill="#fff"/>
+  </svg>
+</div></header>
 
-<!-- STATS -->
-<div class="stats-bar">
-  <div class="stat-item">
-    <div class="stat-num">500+</div>
-    <div class="stat-label">Học Viên</div>
-  </div>
-  <div class="stat-divider"></div>
-  <div class="stat-item">
-    <div class="stat-num">5+</div>
-    <div class="stat-label">Năm Kinh Nghiệm</div>
-  </div>
-  <div class="stat-divider"></div>
-  <div class="stat-item">
-    <div class="stat-num">10+</div>
-    <div class="stat-label">HLV Chuyên Nghiệp</div>
-  </div>
-  <div class="stat-divider"></div>
-  <div class="stat-item">
-    <div class="stat-num">100%</div>
-    <div class="stat-label">Hài Lòng</div>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="about-grid">
-    <div class="about-img">
-      <img src="bìa.jpg" alt="Fit & Fight Club Gym">
-      <div class="about-img-badge">
-        <strong>Fit & Fight</strong>
-        <span>Kickfit Club</span>
-      </div>
+<main>
+  <section class="card">
+    <div class="due">
+      <div><div class="lab">Chi phí quảng cáo đã chạy thực tế đến 14/11/2026</div>
+        <div class="big num" id="due"></div></div>
+      <div class="lab" id="period"></div>
     </div>
-    <div class="about-text">
-      <div class="section-label">Về Chúng Tôi</div>
-      <h2 class="section-title">KHÔNG CHỈ TẬP<br><span>MÀ CÒN CHIẾN</span></h2>
-      <p class="section-desc">Fit & Fight Club là câu lạc bộ boxing & kickfit chuyên nghiệp, nơi huấn luyện viên giàu kinh nghiệm đồng hành cùng bạn trên từng chặng đường chinh phục bản thân.</p>
-      <div class="about-features">
-        <div class="feature-item">
-          <div class="feature-icon">🥊</div>
-          <div class="feature-text">
-            <h4>Boxing & Kickfit</h4>
-            <p>Chương trình tập luyện từ cơ bản đến nâng cao, phù hợp mọi trình độ</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">💪</div>
-          <div class="feature-text">
-            <h4>Giảm Cân – Tăng Cơ</h4>
-            <p>Giáo trình khoa học kết hợp cardio & strength training hiệu quả</p>
-          </div>
-        </div>
-        <div class="feature-item">
-          <div class="feature-icon">🏆</div>
-          <div class="feature-text">
-            <h4>HLV Chuyên Nghiệp</h4>
-            <p>Đội ngũ huấn luyện viên được đào tạo bài bản, nhiệt huyết và tận tâm</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- VIDEOS -->
-<section id="videos">
-  <div class="videos-inner">
-    <div class="videos-header">
-      <div class="section-label">Thực Tế Lớp Học</div>
-      <h2 class="section-title">XEM <span>CHÚNG TÔI</span> CHIẾN</h2>
-      <p class="section-desc">Cảm nhận không khí luyện tập sôi động tại Fit & Fight Club qua những khoảnh khắc thực tế</p>
-    </div>
-    <div class="video-grid">
-      <div class="video-card">
-        <video controls playsinline poster="bìa.jpg" id="vid1">
-          <!-- Thay SRC_VIDEO_1 bằng link video thật của bạn -->
-          <source src="SRC_VIDEO_1" type="video/mp4">
-        </video>
-        <div class="video-caption">⚡ Buổi tập Boxing cơ bản</div>
-      </div>
-      <div class="video-card">
-        <video controls playsinline poster="bìa.jpg" id="vid2">
-          <source src="SRC_VIDEO_2" type="video/mp4">
-        </video>
-        <div class="video-caption">🥊 Kickfit Cardio – Đốt Cháy Calo</div>
-      </div>
-      <div class="video-card">
-        <video controls playsinline poster="bìa.jpg" id="vid3">
-          <source src="SRC_VIDEO_3" type="video/mp4">
-        </video>
-        <div class="video-caption">💪 Training với HLV chuyên nghiệp</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- SPIN GAME -->
-<section id="spin-game">
-  <div class="spin-container">
-    <div class="spin-info">
-      <div class="section-label">Sự Kiện Đặc Biệt</div>
-      <h2 class="section-title">SPIN<br>TO <span>WIN</span></h2>
-      <p class="section-desc">Quay số may mắn và nhận những phần quà hấp dẫn từ Fit & Fight Club!</p>
-
-      <div class="spin-steps">
-        <div class="spin-step">
-          <div class="step-num">1</div>
-          <div class="step-text">
-            <h4>Điền thông tin của bạn</h4>
-            <p>Để lại tên, số điện thoại để nhận quà</p>
-          </div>
-        </div>
-        <div class="spin-step">
-          <div class="step-num">2</div>
-          <div class="step-text">
-            <h4>Nhấn QUAY ngay</h4>
-            <p>Vòng quay may mắn sẽ chọn phần thưởng cho bạn</p>
-          </div>
-        </div>
-        <div class="spin-step">
-          <div class="step-num">3</div>
-          <div class="step-text">
-            <h4>Nhận phần thưởng</h4>
-            <p>HLV sẽ liên hệ xác nhận và trao thưởng cho bạn</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="spin-event-date">
-        <div>
-          <div class="event-date-label">Ngày Sự Kiện</div>
-          <div class="event-date-val">26.06.2026</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="wheel-area">
-      <!-- FORM TRƯỚC KHI QUAY -->
-      <div id="preSpinForm" style="width:360px;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:8px;">
-        <div style="font-size:13px;color:var(--green);letter-spacing:1.5px;text-transform:uppercase;font-weight:700;margin-bottom:14px;">📋 Điền thông tin để quay</div>
-        <div class="form-group">
-          <input type="text" id="preSpinName" placeholder="Họ và tên *">
-        </div>
-        <div class="form-group">
-          <input type="tel" id="preSpinPhone" placeholder="Số điện thoại *">
-        </div>
-      </div>
-      <div class="wheel-wrapper">
-        <div class="wheel-pointer"></div>
-        <canvas id="wheelCanvas" width="360" height="360"></canvas>
-      </div>
-      <div class="spin-btn-wrap" style="width:360px">
-        <button id="spinBtn">🎡 QUAY NGAY</button>
-        <div class="spin-note">Quay bao nhiêu lần cũng được – mỗi lần đều có quà!</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- REGISTER -->
-<section id="register">
-  <div class="register-inner">
-    <div>
-      <div class="section-label">Bắt Đầu Ngay</div>
-      <h2 class="section-title">ĐĂNG KÝ<br><span>HỌC THỬ</span><br>MIỄN PHÍ</h2>
-      <p class="section-desc">Trải nghiệm 1 buổi tập miễn phí cùng HLV chuyên nghiệp. Không cần kinh nghiệm – chỉ cần tinh thần chiến đấu!</p>
-      <div class="contact-items">
-        <div class="contact-item">
-          <div class="contact-icon">📍</div>
-          <div class="contact-detail">
-            <label>Địa Chỉ</label>
-            <span>Fit & Fight Kickfit Club</span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">📞</div>
-          <div class="contact-detail">
-            <label>Hotline</label>
-            <span>090 213 75 50</span>
-          </div>
-        </div>
-        <div class="contact-item">
-          <div class="contact-icon">⏰</div>
-          <div class="contact-detail">
-            <label>Giờ Tập</label>
-            <span>Sáng 6:00 – 8:00 · Chiều 17:00 – 21:00</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="register-form-box">
-      <h3>ĐĂNG KÝ <span>NGAY HÔM NAY</span></h3>
-      <div id="regFormWrap">
-        <div class="form-group">
-          <input type="text" id="regName" placeholder="Họ và tên *">
-        </div>
-        <div class="form-group">
-          <input type="tel" id="regPhone" placeholder="Số điện thoại *">
-        </div>
-        <div class="form-group">
-          <input type="text" id="regGoal" placeholder="Mục tiêu (giảm cân, học boxing...)">
-        </div>
-        <button class="btn-submit" onclick="submitRegister()">ĐĂNG KÝ HỌC THỬ MIỄN PHÍ</button>
-      </div>
-      <div id="regSuccess" style="display:none;text-align:center;padding:32px 0;">
-        <div style="font-size:52px;margin-bottom:12px">🎉</div>
-        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--green)">Đăng Ký Thành Công!</h3>
-        <p style="font-size:14px;color:#888;margin-top:8px;line-height:1.7">HLV sẽ liên hệ bạn trong vòng 24 giờ<br>để xếp lịch buổi học thử miễn phí 🥊</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <img src="logo.jpg" alt="Fit & Fight Club">
-  <p>© 2026 Fit & Fight Club · Kickfit Boxing · All rights reserved</p>
-  <div class="footer-social">
-    <a href="https://www.facebook.com/profile.php?id=61590051455444" target="_blank" title="Facebook">f</a>
-    <a href="#" title="TikTok">T</a>
-    <a href="#" title="Instagram">IG</a>
-  </div>
-</footer>
-
-<!-- PRIZE MODAL -->
-<div class="modal-overlay" id="prizeModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeModal()">✕</button>
-    <div class="modal-prize">
-      <div class="modal-prize-icon" id="prizeIcon">🎁</div>
-      <h3 id="prizeName">Phần Thưởng</h3>
-      <p id="prizeDesc">Chúc mừng bạn đã trúng thưởng!</p>
-    </div>
-    <div id="modalFormArea">
-      <div class="modal-form">
-        <h4>🎉 Xác nhận thông tin nhận thưởng</h4>
-        <div style="background:rgba(126,200,0,0.08);border:1px solid rgba(126,200,0,0.25);border-radius:6px;padding:16px;margin-bottom:16px;">
-          <div style="font-size:12px;color:#7ec800;letter-spacing:1px;text-transform:uppercase;font-weight:700;margin-bottom:8px;">Thông tin của bạn</div>
-          <div style="font-size:15px;font-weight:600;" id="modalInfoName">—</div>
-          <div style="font-size:14px;color:#aaa;margin-top:4px;" id="modalInfoPhone">—</div>
-        </div>
-        <button class="btn-submit" onclick="submitSpin()">✅ XÁC NHẬN NHẬN THƯỞNG</button>
-        <div style="text-align:center;margin-top:10px;font-size:12px;color:#555;">HLV sẽ liên hệ bạn để trao thưởng</div>
-      </div>
-    </div>
-    <div class="success-msg" id="spinSuccess">
-      <div class="check">✅</div>
-      <h3>Đã Xác Nhận!</h3>
-      <p>HLV sẽ liên hệ bạn sớm nhất<br>để xác nhận và trao phần thưởng 🥊</p>
-    </div>
-  </div>
-</div>
-
+    <div class="steps" id="steps"></div>
+    <div class="kpis" id="kpis"></div>
+    <a class="am" id="am-all" target="_blank" rel="noopener">Mở tài khoản quảng cáo “Túi Đá” trên Meta Ads Manager ↗</a>
+    <p class="note">Chị cần được thêm vào tài khoản quảng cáo (quyền xem) thì mới mở được link. Chưa vào được thì chị nhắn Tâm nhé.</p>
+  </section>
+  <div id="rounds"></div>
+  <section class="card">
+    <h2>Nghiệm thu</h2>
+    <table class="calc"><tbody id="calc"></tbody></table>
+    <div class="sign"><div>Khách hàng<br><b>Chị Hằng Moon</b><br><span class="sub">Style by BaoAnh</span></div><div>Bên quản lý quảng cáo<br><b>Trương Nguyễn Thành Tâm</b></div></div>
+  </section>
+  <footer id="foot"></footer>
+</main>
 <script>
-const prizes = [
-  { label: "1 Tháng\nMiễn Phí",   icon: "🏆", desc: "Tập 1 tháng hoàn toàn miễn phí!",          color: "#7ec800" },
-  { label: "Giảm 50%\nHọc Phí",   icon: "💰", desc: "Giảm ngay 50% học phí tháng đầu tiên!",    color: "#1a1a1a" },
-  { label: "Áo Tập\nFit&Fight",    icon: "👕", desc: "Nhận ngay 1 áo tập thương hiệu Fit&Fight!", color: "#2a2a2a" },
-  { label: "Học Thử\nMiễn Phí",   icon: "🥊", desc: "1 buổi học thử miễn phí với HLV!",          color: "#7ec800" },
-  { label: "Bộ Băng\nTay Boxing",  icon: "🎀", desc: "Nhận 1 bộ băng tay boxing cao cấp!",        color: "#1a1a1a" },
-  { label: "Giảm 30%\nHọc Phí",   icon: "🎫", desc: "Giảm ngay 30% học phí tháng đầu tiên!",    color: "#2a2a2a" },
-  { label: "Nước Uống\nThể Thao",  icon: "🧴", desc: "Nhận 1 thùng nước uống thể thao!",          color: "#7ec800" },
-  { label: "Bình Nước\nFit&Fight", icon: "🍶", desc: "Nhận ngay bình nước thương hiệu!",          color: "#1a1a1a" },
-];
+{
+/* ===== DỮ LIỆU — cập nhật tại đây ===== */
+const D={
+  updated:"14/11/2026, 15:18",
+  rounds:[
+    {name:"Lần 1",from:"19/09",to:"21/10/2026",reach:33396,end:"21/10",
+     tx:[["20/09/2026",[["fee",7500000]]],["21/09/2026",[["ads",7000000]]],["27/09/2026",[["learn",15000000],["ads",5000000]]],["12/10/2026",[["ads",10000000]]]]},
+    {name:"Lần 2",from:"22/10",to:"14/11/2026",reach:11559,end:"14/11",
+     tx:[["24/10/2026",[["ads",3000000]]],["25/10/2026",[["ads",5000000]]],["25/10/2026",[["ads",3000000]]],["26/10/2026",[["ads",5000000]]],["26/10/2026",[["ads",7000000]]],["26/10/2026",[["ads",8000000]]],["27/10/2026",[["fee",7500000]]]]}
+  ],
+  reach:39369, dueRounded:2000000,
+  act:"1710161566807408", dates:["2026-09-19_2026-10-21","2026-10-22_2026-11-14"], all:"2026-09-19_2026-11-14",
+  /* [tên, mục tiêu, trạng thái, ngày bắt đầu, đã chi, hiển thị, tiếp cận] */
+  camps:[
+["live 18/10 mess","E","P","18/10",4119656,3753,1847],
+["lie 31/10","E","A","31/10",2984212,3421,2247],
+["live 28/10","E","A","28/10",2971356,3642,2423],
+["like","L","P","23/09",2517761,7599,4214],
+["Bài viết: live 27/10","E","P","27/10",2020844,2645,1857],
+["Bài viết: \"Hello các chị yêu\"","E","A","08/10",1998201,2421,1835],
+["live 21/09","E","P","21/09",1993168,1788,1297],
+["30/10 live","E","A","30/10",1993127,2345,1661],
+["live 9/10","E","A","09/10",1985178,2494,1744],
+["live 11/10","E","A","11/10",1983067,2522,1760],
+["live 17/10","E","A","17/10",1981000,2171,1610],
+["Bài viết: \"Hi cả nhà !\"","E","P","20/09",1808741,1933,707],
+["6/10","E","A","06/10",1731425,2524,689],
+["live 18/10","E","A","18/10",1305748,4323,3543],
+["[23/9/2026] Quảng cáo","M","P","23/09",1267526,8745,5016],
+["mess live 19","E","P","19/10",1256141,1071,612],
+["26/10","E","P","28/10",928434,1614,486],
+["Bài viết: \"Hi cả nhà !\"","E","P","20/09",869997,759,628],
+["30/10","E","P","30/10",789659,1216,285],
+["15/10 sơ mi voan","E","P","15/10",736144,983,435],
+["live 8/10","E","P","08/10",716179,561,408],
+["[21/9/2026] Quảng cáo Style by BaoAnh","L","P","21/09",630807,1579,1333],
+["[22/10/2026] Quảng cáo Style by BaoAnh","L","P","22/10",619317,1787,1446],
+["[22/10/2026] Quảng cáo Style by BaoAnh","L","P","22/10",613121,1859,1495],
+["[22/10/2026] Quảng cáo Style by BaoAnh","L","P","22/10",612003,1834,1466],
+["7/10","E","P","07/10",598713,807,313],
+["live 17/10 - lượt xem","E","P","17/10",586499,5700,4928],
+["live 9/10","E","A","09/10",500000,2667,2450],
+["Chiến dịch Lượt tương tác mới","E","A","08/10",499386,2578,2371],
+["LIVE 11/10","E","A","11/10",497912,1017,783],
+["live 07/11","E","A","07/11",495908,1847,1516],
+["30/10 live tt","E","A","30/10",492462,958,710],
+["live 21/09 - ng xem - usa việt","E","P","21/09",490425,1483,1406],
+["live 21/09 - ng xem - usa việt - cmt","E","P","21/09",479050,2073,1840],
+["Chiến dịch Lượt tương tác mới - Bản sao","E","A","31/10",477828,906,690],
+["17/10 jumpsuit","E","P","17/10",473345,639,291],
+["85 hồng","E","P","27/09",471408,624,287],
+["live - tương tác","E","P","17/10",428559,901,665],
+["somi3mau","E","P","13/10",413751,1338,1140],
+["test 1","E","P","19/09",406428,572,310],
+["somivoan","E","A","13/10",395143,1046,872],
+["Bài viết: \"#1 Set 3 CHỈ còn 35k\"","E","P","19/09",385342,494,315],
+["tô châu","E","P","03/10",353758,604,276],
+["20/10 tt live","E","P","20/10",350044,759,538],
+["somi38","E","P","13/10",332145,905,795],
+["10/11 - đầm dự tiệc","E","P","10/11",305352,530,241],
+["20/10 live mess","E","P","20/10",282623,306,248],
+["tt live 19","E","P","19/10",270018,583,450],
+["11/10","E","A","11/10",269662,1409,1311],
+["20/10 mess live","E","A","20/10",246465,323,263],
+["24/9 quý phái","E","P","24/09",212134,215,130],
+["[24/9/2026] Quảng cáo","M","P","24/09",182750,181,135],
+["tương tác live cmt","E","P","27/10",181832,307,272],
+["15/10 hoa","E","P","15/10",181699,224,125],
+["Bài viết: \"Hi cả nhà !\"","E","P","05/10",179264,246,121],
+["25/9 voan sơ mi","E","P","25/09",167642,170,123],
+["30/10 live","D","A","30/10",165834,276,245],
+["live 30/10 lượt mua","E","A","30/10",161827,269,230],
+["16/10 áo gió","E","P","16/10",135611,175,121],
+["28/9 trắng gold","E","P","28/09",133609,161,100],
+["[22/9/2026] Quảng cáo Style by BaoAnh","L","P","22/09",132681,394,347],
+["[24/9/2026] Quảng cáo Style by BaoAnh","L","P","24/09",127577,217,189],
+["16/10 short","E","P","16/10",126652,154,96],
+["đầm đen","E","P","26/09",114959,185,159],
+["[4/11/2026] Quảng cáo trang","E","A","04/11",89792,449,392],
+["[4/11/2026] Quảng cáo trang","E","A","04/11",89491,475,415],
+["[4/11/2026] Quảng cáo trang","E","A","04/11",89245,537,493],
+["[4/11/2026] Quảng cáo trang","E","A","04/11",88886,525,468],
+["[4/11/2026] Quảng cáo Style By BaoAnh","L","A","04/11",88494,343,334],
+["[30/10/2026] Quảng cáo trang","E","A","30/10",88271,432,389],
+["[4/11/2026] Quảng cáo Style By BaoAnh","L","A","04/11",88233,354,326],
+["[4/11/2026] Quảng cáo Style By BaoAnh","L","A","04/11",87968,325,315],
+["[4/11/2026] Quảng cáo Style By BaoAnh","L","A","04/11",87706,335,321],
+["[4/11/2026] Quảng cáo Style By BaoAnh","L","A","04/11",86872,345,324],
+["25/9 10 tặng 1","E","P","25/09",80377,80,74],
+["live 28/10 tương tác","E","P","28/10",74754,171,142],
+["[20/9/2026] Quảng cáo trang","M","P","20/09",69465,43,27],
+["like","L","P","19/09",69151,182,156],
+["[28/10/2026] Promoting","M","P","28/10",63626,76,66],
+["[23/9/2026] Quảng cáo Style by BaoAnh","L","P","23/09",56548,116,108],
+["[20/9/2026] Quảng cáo","M","P","20/09",54370,48,42],
+["đầm đen like","L","P","26/09",53728,159,148],
+["[4/11/2026] Quảng cáo Style By BaoAnh","L","P","04/11",49446,127,121],
+["like 25/9","L","P","25/09",46670,97,90],
+["[13/11/2026] Quảng cáo Style By BaoAnh","L","A","13/11",44693,105,101],
+["[13/11/2026] Quảng cáo Style By BaoAnh","L","A","13/11",44929,114,112],
+["[13/11/2026] Quảng cáo Style By BaoAnh","L","A","13/11",43485,113,109],
+["[13/11/2026] Quảng cáo Style By BaoAnh","L","A","13/11",43408,121,119],
+["[13/11/2026] Quảng cáo Style By BaoAnh","L","A","13/11",42137,156,151],
+["[13/11/2026] Quảng cáo Style By BaoAnh","L","A","13/11",39075,138,136],
+["[13/11/2026] Quảng cáo Style By BaoAnh","L","A","13/11",38925,139,136],
+["[22/10/2026] Quảng cáo Style by BaoAnh","L","P","22/10",38127,88,86],
+["[13/11/2026] Quảng cáo Style By BaoAnh","L","A","13/11",37814,130,123],
+["20/10 tt","E","P","20/10",19925,44,41],
+["18/10 view","E","P","18/10",19092,109,105],
+["Chiến dịch Lượt tương tác mới","E","P","31/10",5092,16,16]
+]
+};
+/* ======================================= */
+const f=n=>Math.round(n).toLocaleString("vi-VN")+"đ", n=v=>v.toLocaleString("vi-VN");
+const $=id=>document.getElementById(id);
+const AM=d=>`https://adsmanager.facebook.com/adsmanager/manage/campaigns?act=${D.act}&date=${d}`;
+const L={fee:["Phí quản lý FB","t-fee","var(--fee)"],learn:["Học phí chạy ads","t-learn","var(--learn)"],ads:["Ngân sách quảng cáo","t-ads","var(--ads)"]};
+const OBJ={E:"Tương tác",L:"Lượt thích Trang",M:"Tin nhắn",D:"Khách tiềm năng"};
+const inR1=d=>{const[dd,mm]=d.split("/").map(Number);return mm<10||(mm===10&&dd<=21)};
+let paid=0,adsAll=0,spentAll=0,feeAll=0,learnAll=0,impAll=0;
+const R=D.rounds.map((r,i)=>{const s={fee:0,learn:0,ads:0};let p=0;
+  r.tx.forEach(t=>t[1].forEach(([k,v])=>{s[k]+=v;p+=v}));
+  const cs=D.camps.filter(c=>inR1(c[3])===(i===0));
+  const spent=cs.reduce((a,c)=>a+c[4],0), imp=cs.reduce((a,c)=>a+c[5],0);
+  paid+=p;adsAll+=s.ads;spentAll+=spent;feeAll+=s.fee;learnAll+=s.learn;impAll+=imp;
+  return {...r,s,p,cs,spent,imp,bal:s.ads-spent}});
+const bal=adsAll-spentAll;
+$("h-meta").textContent="Cập nhật "+D.updated+" · Người lập: Trương Nguyễn Thành Tâm";
+$("due").textContent=f(spentAll);
+$("due").insertAdjacentHTML("afterend",`<div class="soft">Ngân sách chị đã gửi: <b class="num">${f(adsAll)}</b><br>${bal<0?`Hiện còn thiếu <b class="num">${f(-bal)}</b> so với số đã chạy`:`Ngân sách còn lại <b class="num">${f(bal)}</b>`}</div>`);
+$("period").innerHTML="Từ 19/09 đến<br><b class='num'>14/11/2026</b>";
+$("am-all").href=AM(D.all);
+$("steps").innerHTML=R.map(r=>`<a class="step" href="#${r.name==="Lần 1"?"lan-1":"lan-2"}"><span class="pill">${r.name}</span>
+  <span class="sub">${r.from} – ${r.to}</span><b class="num ${r.bal<0?"neg":"pos"}">${r.bal<0?"Thiếu ":"Dư "}${f(Math.abs(r.bal))}</b></a>`).join('<span class="plus">+</span>')
+  +`<span class="plus">=</span><div class="step tot"><span class="pill">Tổng</span><span class="sub">Bù trừ 2 lần</span><b class="num ${bal<0?"neg":"pos"}">${bal<0?"Thiếu ":"Dư "}${f(Math.abs(bal))}</b></div>`;
+$("kpis").innerHTML=[["Chị đã chuyển",f(paid)],["Số chiến dịch",n(D.camps.length)],["Lượt hiển thị",n(impAll)],["Người tiếp cận",n(D.reach)]]
+  .map(([l,v])=>`<div class="kpi"><span>${l}</span><b class="num">${v}</b></div>`).join("");
 
-const canvas = document.getElementById('wheelCanvas');
-const ctx = canvas.getContext('2d');
-const numSegments = prizes.length;
-const arc = (2 * Math.PI) / numSegments;
-let currentAngle = 0;
-let spinning = false;
-let wonPrize = null;
+let k=0;
+$("rounds").innerHTML=R.map((r,i)=>{
+  const id=i?"lan-2":"lan-1";
+  const tx=r.tx.map(t=>{k++;const tot=t[1].reduce((a,p)=>a+p[1],0);
+    const tags=t[1].map(([kk,v])=>`<span class="tag ${L[kk][1]}">${L[kk][0]}${t[1].length>1?" "+f(v):""}</span>`).join("");
+    return `<tr><td data-l="Ngày" class="num">${t[0]}<span class="sub">Chuyển khoản ${k}</span></td><td data-l="Nội dung">${tags}</td><td data-l="Số tiền" class="num">${f(tot)}</td></tr>`}).join("")
+    +`<tr class="sum"><td colspan="2" data-l="">Tổng chuyển ${r.name}</td><td data-l="" class="num">${f(r.p)}</td></tr>`;
+  const mx=Math.max(r.s.ads,r.spent);
+  const camps=r.cs.map(c=>`<tr><td data-l="Chiến dịch">${c[0].replace(/</g,"&lt;")}<span class="sub">${OBJ[c[1]]} · bắt đầu ${c[3]} · ${c[2]==="A"?'<b class="on">đang chạy</b>':"đã tắt"}</span></td>
+    <td data-l="Hiển thị · Tiếp cận" class="num">${n(c[5])} · ${n(c[6])}</td><td data-l="Đã chi" class="num">${f(c[4])}</td></tr>`).join("");
+  return `<section class="card round" id="${id}">
+    <div class="rhead"><span class="badge">${i+1}</span><div><h2>${r.name}</h2><span class="sub">${r.from} – ${r.to}</span></div>
+      <b class="num rbal ${r.bal<0?"neg":"pos"}">${r.bal<0?"Thiếu ":"Dư "}${f(Math.abs(r.bal))}</b></div>
+    <h3>Tiền chị chuyển</h3>
+    <table class="stack"><thead><tr><th>Ngày</th><th>Khoản</th><th>Số tiền</th></tr></thead><tbody>${tx}</tbody></table>
+    <h3>Ngân sách quảng cáo so với đã chi</h3>
+    <div class="meter">${[["Ngân sách",r.s.ads,"var(--ads)"],["Đã chi",r.spent,"var(--due)"]].map(([l,v,c])=>`<div class="row"><span>${l}</span><div class="track"><i style="width:${(v/mx*100).toFixed(2)}%;background:${c}"></i></div><b class="num">${f(v)}</b></div>`).join("")}</div>
+    <p class="note">${r.s.fee?`Phí quản lý FB ${f(r.s.fee)}`:""}${r.s.learn?` · Học phí chạy ads ${f(r.s.learn)}`:""} (không tính vào ngân sách quảng cáo). Hiển thị ${n(r.imp)} · Tiếp cận ${n(r.reach)} người.</p>
+    <a class="am sm" href="${AM(D.dates[i])}" target="_blank" rel="noopener">Xem ${r.name} trên Meta Ads Manager ↗</a>
+    <details><summary>Xem chi tiết ${r.cs.length} chiến dịch của ${r.name}</summary>
+      <table class="stack camps"><thead><tr><th>Chiến dịch</th><th>Hiển thị · Tiếp cận</th><th>Đã chi</th></tr></thead><tbody>${camps}
+      <tr class="sum"><td data-l="Tổng">Tổng ${r.name}</td><td data-l="Hiển thị" class="num">${n(r.imp)}</td><td data-l="Đã chi" class="num">${f(r.spent)}</td></tr></tbody></table>
+      <button class="copy" data-r="${i}" type="button">Sao chép bảng chiến dịch (dán vào Excel)</button>
+    </details>
+  </section>`}).join("");
 
-function drawWheel(angle) {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  const cx = canvas.width / 2, cy = canvas.height / 2, r = cx - 6;
-  for (let i = 0; i < numSegments; i++) {
-    const start = angle + i * arc;
-    const end = start + arc;
-    ctx.beginPath();
-    ctx.moveTo(cx, cy);
-    ctx.arc(cx, cy, r, start, end);
-    ctx.closePath();
-    ctx.fillStyle = prizes[i].color;
-    ctx.fill();
-    ctx.strokeStyle = '#0a0a0a';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-    ctx.save();
-    ctx.translate(cx, cy);
-    ctx.rotate(start + arc / 2);
-    ctx.textAlign = 'right';
-    ctx.fillStyle = prizes[i].color === '#7ec800' ? '#000' : '#fff';
-    const lines = prizes[i].label.split('\n');
-    const fs = 13;
-    ctx.font = `bold ${fs}px Inter, sans-serif`;
-    lines.forEach((line, li) => {
-      const yOff = (li - (lines.length - 1) / 2) * (fs + 3);
-      ctx.fillText(line, r - 18, yOff + 4);
-    });
-    ctx.restore();
-  }
-  ctx.beginPath();
-  ctx.arc(cx, cy, 36, 0, 2 * Math.PI);
-  ctx.fillStyle = '#111';
-  ctx.fill();
-  ctx.strokeStyle = '#7ec800';
-  ctx.lineWidth = 3;
-  ctx.stroke();
-  ctx.fillStyle = '#7ec800';
-  ctx.font = 'bold 13px Inter, sans-serif';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  ctx.fillText('QUAY', cx, cy);
-}
+document.querySelectorAll(".copy").forEach(b=>b.addEventListener("click",async()=>{
+  const r=R[+b.dataset.r];
+  const txt=["Chiến dịch\tMục tiêu\tTrạng thái\tBắt đầu\tĐã chi (đ)\tHiển thị\tTiếp cận"]
+    .concat(r.cs.map(c=>[c[0],OBJ[c[1]],c[2]==="A"?"Đang chạy":"Đã tắt",c[3],c[4],c[5],c[6]].join("\t"))).join("\n");
+  try{await navigator.clipboard.writeText(txt);b.textContent="Đã sao chép ✓"}catch(e){b.textContent="Không sao chép được, chị bôi đen bảng để copy nhé"}
+  setTimeout(()=>b.textContent="Sao chép bảng chiến dịch (dán vào Excel)",2500)}));
 
-drawWheel(0);
-
-document.getElementById('spinBtn').addEventListener('click', function() {
-  if (spinning) return;
-
-  const name = document.getElementById('preSpinName').value.trim();
-  const phone = document.getElementById('preSpinPhone').value.trim();
-  if (!name) {
-    document.getElementById('preSpinName').style.borderColor = '#ff4444';
-    document.getElementById('preSpinName').focus();
-    return;
-  }
-  if (!phone) {
-    document.getElementById('preSpinPhone').style.borderColor = '#ff4444';
-    document.getElementById('preSpinPhone').focus();
-    return;
-  }
-  document.getElementById('preSpinName').style.borderColor = '';
-  document.getElementById('preSpinPhone').style.borderColor = '';
-
-  spinning = true;
-  this.disabled = true;
-  this.textContent = '⏳ ĐANG QUAY...';
-
-  const extraSpins = 5 + Math.floor(Math.random() * 5);
-  const targetSegment = Math.floor(Math.random() * numSegments);
-  const targetAngle = (2 * Math.PI * extraSpins)
-    + (2 * Math.PI - targetSegment * arc - arc / 2)
-    - (Math.PI / 2);
-
-  const duration = 4000 + Math.random() * 2000;
-  const startTime = performance.now();
-  const startAngle = currentAngle;
-  const btn = this;
-
-  function animate(now) {
-    const elapsed = now - startTime;
-    const t = Math.min(elapsed / duration, 1);
-    const ease = 1 - Math.pow(1 - t, 4);
-    currentAngle = startAngle + targetAngle * ease;
-    drawWheel(currentAngle);
-    if (t < 1) {
-      requestAnimationFrame(animate);
-    } else {
-      spinning = false;
-      wonPrize = prizes[targetSegment];
-      showPrizeModal(wonPrize, name, phone);
-      btn.textContent = '🎡 QUAY LẠI';
-      btn.disabled = false;
-    }
-  }
-  requestAnimationFrame(animate);
-});
-
-function showPrizeModal(prize, name, phone) {
-  document.getElementById('prizeIcon').textContent = prize.icon;
-  document.getElementById('prizeName').textContent = prize.label.replace('\n', ' ');
-  document.getElementById('prizeDesc').textContent = prize.desc;
-  document.getElementById('modalInfoName').textContent = '👤 ' + name;
-  document.getElementById('modalInfoPhone').textContent = '📞 ' + phone;
-  document.getElementById('prizeModal').classList.add('active');
-  document.getElementById('modalFormArea').style.display = 'block';
-  document.getElementById('spinSuccess').style.display = 'none';
-}
-
-function closeModal() {
-  document.getElementById('prizeModal').classList.remove('active');
-}
-
-document.getElementById('prizeModal').addEventListener('click', function(e) {
-  if (e.target === this) closeModal();
-});
-
-function submitSpin() {
-  const name = document.getElementById('modalInfoName').textContent.replace('👤 ', '');
-  const phone = document.getElementById('modalInfoPhone').textContent.replace('📞 ', '');
-  const prize = document.getElementById('prizeName').textContent;
-
-  fetch('https://formspree.io/f/mbdeaqly', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({ name, phone, prize, type: 'Spin to Win' })
-  }).then(() => {
-    document.getElementById('modalFormArea').style.display = 'none';
-    document.getElementById('spinSuccess').style.display = 'block';
-  }).catch(() => {
-    document.getElementById('modalFormArea').style.display = 'none';
-    document.getElementById('spinSuccess').style.display = 'block';
-  });
-}
-
-function submitRegister() {
-  const name = document.getElementById('regName').value.trim();
-  const phone = document.getElementById('regPhone').value.trim();
-  const goal = document.getElementById('regGoal').value.trim();
-  if (!name || !phone) {
-    alert('Vui lòng điền tên và số điện thoại!');
-    return;
-  }
-
-  fetch('https://formspree.io/f/mbdeaqly', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-    body: JSON.stringify({ name, phone, goal, type: 'Đăng Ký Học Thử' })
-  }).then(() => {
-    document.getElementById('regFormWrap').style.display = 'none';
-    document.getElementById('regSuccess').style.display = 'block';
-  }).catch(() => {
-    document.getElementById('regFormWrap').style.display = 'none';
-    document.getElementById('regSuccess').style.display = 'block';
-  });
+const r1=R[0],r2=R[1];
+$("calc").innerHTML=[["Lần 1 · ngân sách "+f(r1.s.ads)+" − đã chi "+f(r1.spent),(r1.bal<0?"− ":"+ ")+f(Math.abs(r1.bal))],
+  ["Lần 2 · ngân sách "+f(r2.s.ads)+" − đã chi "+f(r2.spent),(r2.bal<0?"− ":"+ ")+f(Math.abs(r2.bal))],
+  ["Phí quản lý FB (2 lần) + học phí chạy ads",f(feeAll+learnAll)+" · đã thanh toán đủ"]]
+  .map(([l,v])=>`<tr><td>${l}</td><td class="num">${v}</td></tr>`).join("")
+  +`<tr class="sum"><td>Chênh lệch sau bù trừ 2 lần</td><td class="num">${bal<0?"− ":"+ "}${f(Math.abs(bal))}</td></tr>`;
+$("foot").textContent="Số liệu lấy trực tiếp từ Meta Ads Manager, cập nhật đến "+D.updated+". Các chiến dịch đang chạy sẽ tiếp tục phát sinh chi phí sau thời điểm này.";
 }
 </script>
 </body>
