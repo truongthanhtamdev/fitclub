@@ -203,7 +203,13 @@ async function handle(req, res) {
     const f = STATIC[p];
     if (f) {
       try {
-        const data = await fsp.readFile(path.join(ROOT, f[0]));
+        let data = await fsp.readFile(path.join(ROOT, f[0]));
+        if (f[0] === "index.html") {
+          // Ảnh xem trước khi gửi link qua Zalo/Messenger lấy theo địa chỉ đang chạy
+          const host = String(req.headers.host || "").replace(/[^a-zA-Z0-9.:-]/g, "");
+          const proto = TRUST_PROXY && req.headers["x-forwarded-proto"] === "https" ? "https" : "http";
+          if (host) data = Buffer.from(data.toString("utf8").replace("https://damcuoitungvalan.com/preview.jpg", `${proto}://${host}/preview.jpg`));
+        }
         const cache = f[0].endsWith(".html") ? "no-cache" : "public, max-age=86400";
         return send(res, 200, req.method === "HEAD" ? "" : data, f[1], { "Cache-Control": cache });
       } catch (e) { /* ảnh chưa có thì trả 404 */ }

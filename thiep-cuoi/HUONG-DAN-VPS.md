@@ -2,7 +2,7 @@
 
 Thiệp chạy bằng Node.js, không cần cài thêm thư viện. Danh sách khách lưu trong file `data/rsvps.json` trên VPS.
 
-- Thiệp: `https://damcuoitungvalan.com/`
+- Thiệp: `https://damcuoitungvalan.com/` (chưa có tên miền thì dùng địa chỉ miễn phí `IP.sslip.io` mà lệnh cài in ra)
 - Trang quản trị: `https://damcuoitungvalan.com/quan-tri` (đăng nhập tên `admin` và mật khẩu bạn đặt)
 
 Các lệnh dưới đây dành cho VPS Ubuntu, chạy với quyền root.

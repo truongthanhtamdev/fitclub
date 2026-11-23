@@ -8,7 +8,7 @@ set -euo pipefail
 REPO="https://github.com/truongthanhtamdev/fitclub.git"
 BRANCH="claude/relaxed-ramanujan-pieevt"
 APP=/opt/thiep-cuoi
-DOMAIN="${DOMAIN:-damcuoitungvalan.com}"
+DOMAIN="${DOMAIN:-}"   # để trống: tự dùng <IP>.sslip.io (miễn phí, không cần mua tên miền)
 PORT="${PORT:-3000}"
 
 say() { printf '\n\033[1;35m==> %s\033[0m\n' "$*"; }
@@ -54,10 +54,18 @@ systemctl restart thiep-cuoi
 sleep 1
 systemctl is-active --quiet thiep-cuoi || { journalctl -u thiep-cuoi -n 30 --no-pager; echo "Dịch vụ chưa chạy được, xem lỗi ở trên."; exit 1; }
 
-say "Gắn tên miền $DOMAIN vào nginx"
+IP=$(curl -fsS -4 https://api.ipify.org 2>/dev/null || hostname -I | awk '{print $1}')
+if [ -z "$DOMAIN" ]; then
+  DOMAIN="${IP//./-}.sslip.io"
+  NAMES="$DOMAIN $IP"; CERT_ARGS=(-d "$DOMAIN")
+else
+  NAMES="$DOMAIN www.$DOMAIN $IP"; CERT_ARGS=(-d "$DOMAIN" -d "www.$DOMAIN")
+fi
+
+say "Gắn địa chỉ $DOMAIN vào nginx"
 CONF=/etc/nginx/sites-available/thiep-cuoi
-if [ ! -f "$CONF" ]; then
-  sed -e "s/damcuoitungvalan.com/$DOMAIN/g" -e "s/127.0.0.1:3000/127.0.0.1:$PORT/" "$APP/nginx-damcuoitungvalan.conf" > "$CONF"
+if ! grep -q "server_name $NAMES;" "$CONF" 2>/dev/null; then
+  sed -e "s/server_name .*;/server_name $NAMES;/" -e "s/127.0.0.1:3000/127.0.0.1:$PORT/" "$APP/nginx-damcuoitungvalan.conf" > "$CONF"
   ln -sf "$CONF" /etc/nginx/sites-enabled/thiep-cuoi
 fi
 nginx -t && systemctl reload nginx
@@ -65,17 +73,17 @@ nginx -t && systemctl reload nginx
 say "Bật HTTPS"
 if certbot certificates 2>/dev/null | grep -q "Domains: .*$DOMAIN"; then
   echo "HTTPS đã có sẵn."
-elif certbot --nginx --non-interactive --agree-tos --register-unsafely-without-email --redirect -d "$DOMAIN" -d "www.$DOMAIN"; then
+elif certbot --nginx --non-interactive --agree-tos --register-unsafely-without-email --redirect "${CERT_ARGS[@]}"; then
   echo "Đã bật HTTPS."
 else
-  echo "Chưa bật được HTTPS: có thể tên miền chưa trỏ về IP VPS này."
-  echo "Trỏ xong (bản ghi A cho @ và www), chạy lại lệnh cài là được."
+  echo "Chưa bật được HTTPS. Thiệp vẫn mở được bằng http://$DOMAIN/"
+  echo "Kiểm tra VPS đã mở cổng 80 và 443 (tường lửa của nhà cung cấp VPS) rồi chạy lại lệnh cài."
 fi
 
-IP=$(curl -fsS -4 https://api.ipify.org 2>/dev/null || hostname -I | awk '{print $1}')
 say "Xong!"
 echo "Thiệp:        https://$DOMAIN/"
 echo "Quản trị:     https://$DOMAIN/quan-tri   (tên đăng nhập: admin)"
-echo "IP VPS:       $IP   (tên miền cần trỏ về IP này)"
+echo "IP VPS:       $IP"
+echo "Có tên miền riêng sau này: trỏ bản ghi A về IP trên rồi chạy lại lệnh với DOMAIN=ten-mien.com"
 echo "Ảnh cưới:     chép vào $APP/ với tên anh-1.jpg ... anh-4.jpg"
 echo "Danh sách:    $APP/data/rsvps.json"
