@@ -50,7 +50,6 @@ function save() {
 const STATIC = {
   "/": ["index.html", "text/html; charset=utf-8"],
   "/index.html": ["index.html", "text/html; charset=utf-8"],
-  "/couple.webp": ["couple.webp", "image/webp"],
   "/floral.webp": ["floral.webp", "image/webp"],
   "/preview.jpg": ["preview.jpg", "image/jpeg"],
 };

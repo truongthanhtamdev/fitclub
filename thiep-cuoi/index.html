@@ -62,7 +62,7 @@ h1 {
   color: var(--rose); text-transform: uppercase; text-wrap: balance;
 }
 h1 .amp { font-style: italic; font-weight: 400; text-transform: none; }
-.couple-art { width: 300px; max-width: 100%; border-radius: 4px; display: block; }
+.couple-art { width: 100%; max-width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 62%; border-radius: 14px; display: block; }
 .divider { display: flex; align-items: center; gap: 10px; width: 60%; }
 .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: var(--rose-soft); }
 .divider i { width: 6px; height: 6px; border-radius: 50%; background: var(--rose); }
@@ -141,7 +141,7 @@ img { max-width: 100%; }
       <h1>Thanh Tùng <span class="amp">&amp;</span> Xuân Lan</h1>
     </div>
 
-    <img class="couple-art" src="couple.webp" alt="Hình minh họa Thanh Tùng và Xuân Lan trong lễ phục cưới">
+    <img class="couple-art" src="anh-1.jpg" alt="Thanh Tùng và Xuân Lan trong bộ ảnh cưới" fetchpriority="high">
 
     <div class="divider" aria-hidden="true"><i></i></div>
 
@@ -156,7 +156,6 @@ img { max-width: 100%; }
     <section class="block" id="album" aria-labelledby="album-h">
       <h2 id="album-h">Khoảnh Khắc</h2>
       <div class="gallery">
-        <figure class="wide"><img src="anh-1.jpg" alt="Thanh Tùng và Xuân Lan trong bộ ảnh cưới studio" loading="lazy"></figure>
         <figure><img src="anh-2.jpg" alt="Cô dâu chú rể khiêu vũ" loading="lazy"></figure>
         <figure><img src="anh-3.jpg" alt="Cô dâu chú rể cầu nguyện trước tượng Đức Mẹ" loading="lazy"></figure>
         <figure class="wide"><img src="anh-4.jpg" alt="Cô dâu chú rể trước tượng Thánh Giuse" loading="lazy"></figure>
