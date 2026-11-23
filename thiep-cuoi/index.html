@@ -71,6 +71,10 @@ h1 .amp { font-style: italic; font-weight: 400; text-transform: none; }
 .guest { font-family: var(--f-display); font-size: 28px; font-weight: 600; margin: 4px 0; color: var(--ink); }
 .invite .sub { font-family: var(--f-display); font-style: italic; color: var(--muted); }
 .verse { margin: 0; font-family: var(--f-display); font-style: italic; font-size: 18px; line-height: 1.55; color: var(--ink); max-width: 34ch; text-wrap: balance; }
+.gallery { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.gallery figure { margin: 0; border-radius: 12px; overflow: hidden; background: var(--ground); aspect-ratio: 2 / 3; max-width: 100%; }
+.gallery figure.wide { grid-column: 1 / -1; aspect-ratio: 4 / 5; }
+.gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .verse cite { display: block; margin-top: 6px; font-family: var(--f-body); font-style: normal; font-size: 12.5px; color: var(--rose); letter-spacing: .1em; }
 .block { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 28px; border-top: 1px dashed var(--rose-soft); }
 .block h2 { margin: 0 0 4px; font-family: var(--f-display); font-weight: 600; font-size: 21px; letter-spacing: .1em; text-transform: uppercase; color: var(--rose); }
@@ -148,6 +152,16 @@ img { max-width: 100%; }
     </div>
 
     <p class="verse">“Xin Chúa đoái thương con và em con, cho chúng con được chung sống bên nhau đến tuổi già.”<cite>Tb 8,7</cite></p>
+
+    <section class="block" id="album" aria-labelledby="album-h">
+      <h2 id="album-h">Khoảnh Khắc</h2>
+      <div class="gallery">
+        <figure class="wide"><img src="anh-1.jpg" alt="Thanh Tùng và Xuân Lan trong bộ ảnh cưới studio" loading="lazy"></figure>
+        <figure><img src="anh-2.jpg" alt="Cô dâu chú rể khiêu vũ" loading="lazy"></figure>
+        <figure><img src="anh-3.jpg" alt="Cô dâu chú rể cầu nguyện trước tượng Đức Mẹ" loading="lazy"></figure>
+        <figure class="wide"><img src="anh-4.jpg" alt="Cô dâu chú rể trước tượng Thánh Giuse" loading="lazy"></figure>
+      </div>
+    </section>
 
     <section class="block">
       <h2>Thánh Lễ Hôn Phối</h2>
@@ -326,6 +340,16 @@ img { max-width: 100%; }
       const s = getSelection(); s.removeAllRanges(); s.addRange(r); reset("Đã chọn, hãy sao chép");
     };
     try { navigator.clipboard.writeText(msg.textContent).then(() => reset("Đã sao chép"), fallback); } catch (e) { fallback(); }
+  });
+
+
+  // Ảnh nào chưa có file thì ẩn khung; không có ảnh nào thì ẩn cả album.
+  const figs = [...document.querySelectorAll("#album figure")];
+  let missing = 0;
+  figs.forEach(fig => {
+    const img = fig.querySelector("img");
+    const miss = () => { fig.hidden = true; if (++missing === figs.length) $("album").hidden = true; };
+    if (img.complete && img.naturalWidth === 0) miss(); else img.addEventListener("error", miss);
   });
 
   window.addEventListener("hashchange", showGuest);
