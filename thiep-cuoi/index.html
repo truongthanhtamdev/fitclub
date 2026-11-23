@@ -201,7 +201,7 @@ img { max-width: 100%; }
       <form id="rsvp-form" class="form" novalidate>
         <div class="choices" role="radiogroup" aria-label="Tham dự">
           <label class="choice"><input type="radio" name="rsvp" id="rsvp-yes" value="yes" checked> Mình sẽ đến</label>
-          <label class="choice"><input type="radio" name="rsvp" id="rsvp-no" value="no"> Rất tiếc, không đến được</label>
+          <label class="choice"><input type="radio" name="rsvp" id="rsvp-maybe" value="maybe"> Mình sẽ cố gắng sắp xếp</label>
         </div>
         <label class="field"><span>Họ và tên</span><input id="f-name" autocomplete="name" required maxlength="80" placeholder="Nguyễn Văn A"></label>
         <label class="field"><span>Số điện thoại</span><input id="f-phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="20" placeholder="0901 234 567"></label>
@@ -270,17 +270,16 @@ img { max-width: 100%; }
       name: $("f-name").value.trim(),
       phone: $("f-phone").value.trim(),
       address: $("f-address").value.trim(),
-      count: attending() ? count : 0,
+      count,
     };
   }
   function renderMsg() {
-    stepper.hidden = !attending();
     const f = readForm();
     const who = f.name || (guestEl.textContent === "Quý Khách" ? "Mình" : guestEl.textContent.replace(/^Bạn /, ""));
-    msg.textContent = f.attend
-      ? `${who} xác nhận sẽ đến đám cưới Tùng & Lan ngày 27.12.2026, đi ${f.count} người.` +
-        (f.phone ? ` SĐT: ${f.phone}.` : "") + (f.address ? ` Địa chỉ nhận thiệp: ${f.address}.` : "")
-      : `${who} rất tiếc không đến dự đám cưới Tùng & Lan được. Chúc hai bạn trăm năm hạnh phúc!`;
+    msg.textContent = (f.attend
+      ? `${who} xác nhận sẽ đến đám cưới Tùng & Lan ngày 27.12.2026, dự kiến ${f.count} người.`
+      : `${who} sẽ cố gắng sắp xếp đến đám cưới Tùng & Lan ngày 27.12.2026, dự kiến ${f.count} người.`) +
+      (f.phone ? ` SĐT: ${f.phone}.` : "") + (f.address ? ` Địa chỉ nhận thiệp: ${f.address}.` : "");
   }
   document.querySelectorAll('input[name="rsvp"]').forEach(r => r.addEventListener("change", renderMsg));
   ["f-name", "f-phone", "f-address"].forEach(id => $(id).addEventListener("input", renderMsg));
@@ -290,8 +289,8 @@ img { max-width: 100%; }
   function showDone(f) {
     form.hidden = true; fallback.hidden = true; done.hidden = false;
     $("done-text").textContent = f.attend
-      ? `Đã ghi nhận ${f.name}, ${f.count} người. Thiệp sẽ được gửi đến: ${f.address || "(chưa có địa chỉ)"}.`
-      : `Đã ghi nhận ${f.name} không đến được. Cảm ơn lời chúc của bạn!`;
+      ? `Đã ghi nhận ${f.name} sẽ đến, dự kiến ${f.count} người. Thiệp sẽ được gửi đến: ${f.address}.`
+      : `Đã ghi nhận ${f.name} sẽ cố gắng sắp xếp, dự kiến ${f.count} người. Thiệp sẽ được gửi đến: ${f.address}.`;
   }
   function showFallback() { renderMsg(); fallback.hidden = false; }
   $("edit").onclick = () => { done.hidden = true; form.hidden = false; $("f-name").focus(); };
@@ -302,12 +301,12 @@ img { max-width: 100%; }
     err.hidden = true;
     if (!f.name) { err.textContent = "Bạn điền họ và tên giúp mình nhé."; err.hidden = false; $("f-name").focus(); return; }
     if (!/^[0-9+ .()-]{8,20}$/.test(f.phone)) { err.textContent = "Số điện thoại chưa đúng, bạn kiểm tra lại giúp mình."; err.hidden = false; $("f-phone").focus(); return; }
-    if (f.attend && !f.address) { err.textContent = "Bạn điền địa chỉ để Tùng & Lan gửi thiệp tận tay nhé."; err.hidden = false; $("f-address").focus(); return; }
+    if (!f.address) { err.textContent = "Bạn điền địa chỉ để Tùng & Lan gửi thiệp tận tay nhé."; err.hidden = false; $("f-address").focus(); return; }
     if (!SHEET_URL) { showFallback(); return; }
     const btn = $("submit"); btn.disabled = true; btn.textContent = "Đang gửi…";
     try {
       const body = new URLSearchParams({
-        attend: f.attend ? "yes" : "no", name: f.name, phone: f.phone,
+        attend: f.attend ? "yes" : "maybe", name: f.name, phone: f.phone,
         address: f.address, count: String(f.count), link: location.hash.slice(1) || "",
       });
       await fetch(SHEET_URL, { method: "POST", mode: "no-cors", body });
@@ -325,7 +324,7 @@ img { max-width: 100%; }
     const saved = JSON.parse(localStorage.getItem(SAVED_KEY) || "null");
     if (saved && saved.name) {
       $("f-name").value = saved.name; $("f-phone").value = saved.phone || ""; $("f-address").value = saved.address || "";
-      $(saved.attend ? "rsvp-yes" : "rsvp-no").checked = true; setCount(Number(saved.count) || 1);
+      $(saved.attend ? "rsvp-yes" : "rsvp-maybe").checked = true; setCount(Number(saved.count) || 1);
       showDone(saved);
     }
   } catch (e) {}

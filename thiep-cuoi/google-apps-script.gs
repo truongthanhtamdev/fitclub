@@ -31,11 +31,11 @@ function doPost(e) {
     const attend = p.attend === 'yes';
     sheet.appendRow([
       new Date(),
-      attend ? 'Có' : 'Không',
+      attend ? 'Chắc chắn đến' : 'Cố gắng sắp xếp',
       clean(p.name, 80),
       "'" + clean(p.phone, 20), // giữ số 0 ở đầu
       clean(p.address, 200),
-      attend ? Math.min(20, Math.max(1, Number(p.count) || 1)) : 0,
+      Math.min(20, Math.max(1, Number(p.count) || 1)),
       clean(p.link, 60),
     ]);
     return ContentService.createTextOutput(JSON.stringify({ ok: true }))
