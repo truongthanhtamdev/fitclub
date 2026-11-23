@@ -1,0 +1,17 @@
+[Unit]
+Description=Thiep cuoi Tung & Lan
+After=network.target
+
+[Service]
+WorkingDirectory=/opt/thiep-cuoi
+ExecStart=/usr/bin/node /opt/thiep-cuoi/server.js
+Environment=PORT=3000
+Environment=HOST=127.0.0.1
+Environment=TRUST_PROXY=1
+Environment=DATA_DIR=/opt/thiep-cuoi/data
+EnvironmentFile=/opt/thiep-cuoi/.env
+Restart=always
+User=www-data
+
+[Install]
+WantedBy=multi-user.target

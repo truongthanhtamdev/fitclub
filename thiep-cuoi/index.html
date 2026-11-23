@@ -9,7 +9,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Thiệp Cưới Thanh Tùng &amp; Xuân Lan · 27.12.2026">
 <meta property="og:description" content="Thánh lễ Hôn phối tại Giáo xứ Tân Hương và tiệc cưới tại The Adora Luxury. Bấm để xem thiệp và xác nhận tham dự.">
-<meta property="og:image" content="https://truongthanhtamdev.github.io/fitclub/thiep-cuoi/preview.jpg">
+<meta property="og:image" content="https://damcuoitungvalan.com/preview.jpg">
 <meta name="theme-color" content="#f6eef0">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,500;0,600;1,400&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap&subset=vietnamese">
 <style>
@@ -232,12 +232,17 @@ img { max-width: 100%; }
 
 <script>
 (function () {
-  // Tên khách theo link: thêm #huy-anh vào cuối link thiệp.
+  // Tên khách theo link: #huy-anh, hoặc link tạo từ trang quản trị dạng #ten=Bạn%20Huy%20Anh
   const GUESTS = { "huy-anh": "Bạn Huy Anh" };
   const guestEl = document.getElementById("guest");
+  function guestName() {
+    let raw = location.hash.slice(1);
+    try { raw = decodeURIComponent(raw); } catch (e) {}
+    if (raw.startsWith("ten=")) return raw.slice(4).trim().slice(0, 60) || "Quý Khách";
+    return GUESTS[raw.toLowerCase()] || "Quý Khách";
+  }
   function showGuest() {
-    const key = decodeURIComponent(location.hash.slice(1)).toLowerCase();
-    guestEl.textContent = GUESTS[key] || "Quý Khách";
+    guestEl.textContent = guestName();
     renderMsg();
   }
 
@@ -258,8 +263,8 @@ img { max-width: 100%; }
   let count = 1;
   const msg = $("msg"), countEl = $("count"), stepper = $("stepper");
   const form = $("rsvp-form"), done = $("done"), fallback = $("fallback"), err = $("form-error");
-  // Link Web App của Google Apps Script (xem file google-apps-script.gs). Để trống thì khách nhận lời nhắn để tự gửi.
-  const SHEET_URL = "";
+  // Địa chỉ lưu xác nhận trên VPS (server.js). Không gửi được thì khách nhận lời nhắn để tự gửi qua Zalo.
+  const API_URL = "api/rsvp";
   const SAVED_KEY = "rsvp-tung-lan";
 
   const attending = () => $("rsvp-yes").checked;
@@ -302,19 +307,26 @@ img { max-width: 100%; }
     if (!f.name) { err.textContent = "Bạn điền họ và tên giúp mình nhé."; err.hidden = false; $("f-name").focus(); return; }
     if (!/^[0-9+ .()-]{8,20}$/.test(f.phone)) { err.textContent = "Số điện thoại chưa đúng, bạn kiểm tra lại giúp mình."; err.hidden = false; $("f-phone").focus(); return; }
     if (!f.address) { err.textContent = "Bạn điền địa chỉ để Tùng & Lan gửi thiệp tận tay nhé."; err.hidden = false; $("f-address").focus(); return; }
-    if (!SHEET_URL) { showFallback(); return; }
     const btn = $("submit"); btn.disabled = true; btn.textContent = "Đang gửi…";
     try {
-      const body = new URLSearchParams({
-        attend: f.attend ? "yes" : "maybe", name: f.name, phone: f.phone,
-        address: f.address, count: String(f.count), link: location.hash.slice(1) || "",
+      const res = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          attend: f.attend ? "yes" : "maybe", name: f.name, phone: f.phone,
+          address: f.address, count: f.count, invitedAs: guestEl.textContent,
+        }),
       });
-      await fetch(SHEET_URL, { method: "POST", mode: "no-cors", body });
+      if (res.status === 400 || res.status === 429) {
+        const j = await res.json().catch(() => ({}));
+        err.textContent = j.error || "Chưa gửi được, bạn thử lại sau ít phút nhé.";
+        err.hidden = false;
+        return;
+      }
+      if (!res.ok) throw new Error("HTTP " + res.status);
       try { localStorage.setItem(SAVED_KEY, JSON.stringify(f)); } catch (e3) {}
       showDone(f);
     } catch (e2) {
-      err.textContent = "Chưa gửi được, bạn kiểm tra mạng rồi bấm gửi lại nhé.";
-      err.hidden = false;
       showFallback();
     } finally { btn.disabled = false; btn.textContent = "Gửi xác nhận"; }
   });
