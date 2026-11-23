@@ -10,8 +10,7 @@ module.exports = async (req, res) => {
     const r = await L.get(id);
     if (!r) return L.send(res, 404, { error: "Không tìm thấy khách này." });
     if (req.method === "DELETE") {
-      await L.redis("HDEL", L.KEY, id);
-      await L.redis("HDEL", L.PHONE_KEY, L.normPhone(r.phone));
+      await L.remove(id);
       return L.send(res, 200, { ok: true });
     }
     if (req.method === "PATCH") {

@@ -1,36 +1,49 @@
-// Dùng chung cho các hàm API trên Vercel. Dữ liệu lưu ở Upstash Redis
-// (Vercel > Storage > Upstash for Redis tự thêm biến môi trường KV_REST_API_URL, KV_REST_API_TOKEN).
+// Dùng chung cho các hàm API trên Vercel. Danh sách khách lưu trong Vercel Blob
+// ở chế độ riêng tư (biến BLOB_READ_WRITE_TOKEN do Vercel tự thêm khi nối kho vào project).
 "use strict";
 const crypto = require("node:crypto");
+const blob = require("@vercel/blob");
 
-const REDIS_URL = process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || "";
-const REDIS_TOKEN = process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || "";
 const ADMIN_USER = process.env.ADMIN_USER || "admin";
 const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
+const PREFIX = "rsvps/";
 
-const KEY = "tunglan:rsvps";        // hash: id -> JSON khách
-const PHONE_KEY = "tunglan:phones"; // hash: số điện thoại -> id
-
-async function redis(...cmd) {
-  if (!REDIS_URL || !REDIS_TOKEN) throw Object.assign(new Error("Chưa kết nối kho dữ liệu (Upstash Redis)."), { status: 503 });
-  const res = await fetch(REDIS_URL, {
-    method: "POST",
-    headers: { Authorization: `Bearer ${REDIS_TOKEN}`, "Content-Type": "application/json" },
-    body: JSON.stringify(cmd),
-  });
-  const j = await res.json().catch(() => ({}));
-  if (!res.ok || j.error) throw new Error(j.error || `Redis ${res.status}`);
-  return j.result;
+function requireStore() {
+  if (!process.env.BLOB_READ_WRITE_TOKEN) throw Object.assign(new Error("Chưa kết nối kho dữ liệu."), { status: 503 });
 }
-
+async function readBlob(pathname) {
+  const r = await blob.get(pathname, { access: "private", useCache: false });
+  if (!r || !r.stream) return null;
+  const text = await new Response(r.stream).text();
+  return JSON.parse(text);
+}
 async function all() {
-  const flat = (await redis("HGETALL", KEY)) || [];
-  const out = [];
-  for (let i = 1; i < flat.length; i += 2) { try { out.push(JSON.parse(flat[i])); } catch (e) {} }
+  requireStore();
+  const out = []; let cursor;
+  do {
+    const page = await blob.list({ prefix: PREFIX, cursor, limit: 1000 });
+    const rows = await Promise.all(page.blobs.map(b => readBlob(b.pathname).catch(() => null)));
+    out.push(...rows.filter(Boolean));
+    cursor = page.hasMore ? page.cursor : undefined;
+  } while (cursor);
   return out;
 }
-const get = async id => { const v = await redis("HGET", KEY, id); return v ? JSON.parse(v) : null; };
-const put = r => redis("HSET", KEY, r.id, JSON.stringify(r));
+async function get(id) {
+  requireStore();
+  try { return await readBlob(PREFIX + id + ".json"); }
+  catch (e) { if (e instanceof blob.BlobNotFoundError) return null; throw e; }
+}
+async function put(r) {
+  requireStore();
+  await blob.put(PREFIX + r.id + ".json", JSON.stringify(r), {
+    access: "private", addRandomSuffix: false, allowOverwrite: true,
+    contentType: "application/json", cacheControlMaxAge: 60,
+  });
+}
+async function remove(id) {
+  requireStore();
+  await blob.del(PREFIX + id + ".json");
+}
 
 function send(res, status, body, headers = {}) {
   res.statusCode = status;
@@ -108,4 +121,4 @@ function clientIp(req) {
   return String(req.headers["x-forwarded-for"] || "").split(",")[0].trim() || "unknown";
 }
 
-module.exports = { redis, all, get, put, send, requireAdmin, readJson, validate, normPhone, clean, csv, clientIp, KEY, PHONE_KEY };
+module.exports = { all, get, put, remove, send, requireAdmin, readJson, validate, normPhone, clean, csv, clientIp };
