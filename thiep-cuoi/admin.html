@@ -99,10 +99,23 @@ input[type="search"] { flex: 1 1 220px; }
     </div>
     <div class="row">
       <a class="btn ghost" href="/" target="_blank" rel="noopener">Xem thiệp</a>
-      <a class="btn" href="/api/admin/export.csv">Tải file Excel (CSV)</a>
+      <button class="btn" type="button" id="export">Tải file Excel (CSV)</button>
+      <button class="btn ghost" type="button" id="logout" hidden>Đăng xuất</button>
     </div>
   </header>
 
+  <form class="panel login" id="login" hidden>
+    <h2>Đăng nhập quản trị</h2>
+    <p class="status">Nhập mật khẩu quản trị để xem danh sách khách.</p>
+    <div class="row">
+      <input type="text" id="l-user" value="admin" autocomplete="username" aria-label="Tên đăng nhập" style="flex:0 1 140px">
+      <input type="password" id="l-pass" autocomplete="current-password" placeholder="Mật khẩu" aria-label="Mật khẩu" style="flex:1 1 200px">
+      <button class="btn" type="submit">Đăng nhập</button>
+    </div>
+    <p class="status" id="l-err" hidden></p>
+  </form>
+
+  <div id="app" hidden>
   <section class="stats" aria-label="Tổng hợp">
     <div class="stat main"><b id="s-people">0</b><span>Tổng số người dự kiến</span></div>
     <div class="stat"><b id="s-yes">0</b><span>Chắc chắn đến (<span id="s-yes-p">0</span> người)</span></div>
@@ -136,6 +149,7 @@ input[type="search"] { flex: 1 1 220px; }
   </section>
 
   <div class="list" id="list"></div>
+  </div>
 </div>
 
 <script>
@@ -147,18 +161,55 @@ input[type="search"] { flex: 1 1 220px; }
   const fmt = iso => new Date(iso).toLocaleString("vi-VN", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit", timeZone: "Asia/Ho_Chi_Minh" });
   const telHref = p => "tel:" + String(p).replace(/[^0-9+]/g, "");
 
+  const AUTH_KEY = "tunglan-admin";
+  let auth = "";
+  try { auth = sessionStorage.getItem(AUTH_KEY) || ""; } catch (e) {}
+  const headers = () => ({ "Content-Type": "application/json", ...(auth ? { Authorization: auth } : {}) });
+
+  function showLogin(message) {
+    $("app").hidden = true; $("logout").hidden = true; $("export").hidden = true;
+    $("login").hidden = false;
+    $("l-err").hidden = !message; $("l-err").textContent = message || "";
+    $("l-pass").focus();
+  }
   async function api(path, opts = {}) {
-    const res = await fetch(path, { credentials: "same-origin", headers: { "Content-Type": "application/json" }, ...opts });
+    const res = await fetch(path, { credentials: "same-origin", headers: headers(), ...opts });
+    if (res.status === 401) { const e = new Error("Cần đăng nhập"); e.auth = true; throw e; }
     if (!res.ok) throw new Error((await res.json().catch(() => ({}))).error || "Lỗi " + res.status);
     return res.json();
   }
+  $("login").addEventListener("submit", async e => {
+    e.preventDefault();
+    const pass = $("l-pass").value;
+    if (!pass) { $("l-pass").focus(); return; }
+    auth = "Basic " + btoa(String.fromCharCode(...new TextEncoder().encode($("l-user").value.trim() + ":" + pass)));
+    try { sessionStorage.setItem(AUTH_KEY, auth); } catch (e2) {}
+    $("l-pass").value = "";
+    await load(true);
+  });
+  $("logout").addEventListener("click", () => {
+    auth = ""; try { sessionStorage.removeItem(AUTH_KEY); } catch (e) {}
+    all = []; showLogin();
+  });
+  $("export").addEventListener("click", async () => {
+    try {
+      const res = await fetch("/api/admin/export.csv", { headers: headers() });
+      if (!res.ok) throw new Error("Lỗi " + res.status);
+      const url = URL.createObjectURL(await res.blob());
+      const a = Object.assign(document.createElement("a"), { href: url, download: "khach-moi-tung-lan.csv" });
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 2000);
+    } catch (e) { $("status").textContent = "Chưa tải được file: " + e.message; }
+  });
 
-  async function load() {
+  async function load(fromLogin) {
     try {
       all = await api("/api/admin/rsvps");
+      $("login").hidden = true; $("app").hidden = false; $("logout").hidden = !auth; $("export").hidden = false;
       render();
       $("status").textContent = `Cập nhật lúc ${new Date().toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })} · tự làm mới mỗi 30 giây`;
     } catch (e) {
+      if (e.auth) { showLogin(fromLogin ? "Sai tên đăng nhập hoặc mật khẩu." : ""); return; }
       $("status").textContent = "Chưa tải được danh sách: " + e.message + ". Kiểm tra mạng rồi tải lại trang.";
     }
   }
@@ -208,7 +259,7 @@ input[type="search"] { flex: 1 1 220px; }
     try {
       if (e.target.dataset.act === "deliver") { r.delivered = e.target.checked; await api("/api/admin/rsvps/" + id, { method: "PATCH", body: JSON.stringify({ delivered: r.delivered }) }); render(); }
       if (e.target.dataset.act === "note") { r.note = e.target.value; await api("/api/admin/rsvps/" + id, { method: "PATCH", body: JSON.stringify({ note: r.note }) }); }
-    } catch (err) { $("status").textContent = "Chưa lưu được: " + err.message; }
+    } catch (err) { if (err.auth) return showLogin(); $("status").textContent = "Chưa lưu được: " + err.message; }
   });
   $("list").addEventListener("click", async e => {
     const act = e.target.dataset?.act; const card = e.target.closest(".guest"); if (!act || !card) return;
@@ -242,7 +293,7 @@ input[type="search"] { flex: 1 1 220px; }
   });
 
   load();
-  setInterval(() => { if (!document.hidden && !document.activeElement?.matches?.(".note")) load(); }, 30000);
+  setInterval(() => { if (!document.hidden && !$("app").hidden && !document.activeElement?.matches?.(".note")) load(); }, 30000);
 })();
 </script>
 </body>

@@ -1,0 +1,9 @@
+{
+  "rewrites": [
+    { "source": "/quan-tri", "destination": "/admin.html" },
+    { "source": "/api/admin/export.csv", "destination": "/api/admin/export" }
+  ],
+  "headers": [
+    { "source": "/(admin.html|quan-tri)", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }, { "key": "Cache-Control", "value": "no-store" }] }
+  ]
+}

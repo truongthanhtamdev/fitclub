@@ -165,17 +165,14 @@ async function handle(req, res) {
     return send(res, 200, { ok: true });
   }
 
-  // Trang quản trị và API quản trị: cần đăng nhập
-  if (p === "/quan-tri" || p.startsWith("/api/admin")) {
-    if (!isAdmin(req)) {
-      return send(res, 401, p === "/quan-tri" ? "Cần đăng nhập" : { error: "Cần đăng nhập" },
-        p === "/quan-tri" ? "text/plain; charset=utf-8" : undefined,
-        { "WWW-Authenticate": 'Basic realm="Quan tri thiep cuoi", charset="UTF-8"' });
-    }
+  // Trang quản trị (tự có form đăng nhập) và API quản trị (cần đăng nhập)
+  if (p === "/quan-tri" && req.method === "GET") {
+    return send(res, 200, await fsp.readFile(path.join(ROOT, "admin.html")), "text/html; charset=utf-8",
+      { "Cache-Control": "no-store", "X-Robots-Tag": "noindex" });
+  }
+  if (p.startsWith("/api/admin")) {
+    if (!isAdmin(req)) return send(res, 401, { error: "Sai tên đăng nhập hoặc mật khẩu." });
     const noStore = { "Cache-Control": "no-store" };
-    if (p === "/quan-tri" && req.method === "GET") {
-      return send(res, 200, await fsp.readFile(path.join(ROOT, "admin.html")), "text/html; charset=utf-8", noStore);
-    }
     if (p === "/api/admin/rsvps" && req.method === "GET") return send(res, 200, rsvps, undefined, noStore);
     if (p === "/api/admin/export.csv" && req.method === "GET") {
       return send(res, 200, csv(rsvps), "text/csv; charset=utf-8",
