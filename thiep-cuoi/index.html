@@ -177,7 +177,7 @@ img { max-width: 100%; }
           <label class="choice"><input type="radio" name="rsvp" id="rsvp-yes" value="yes" checked> Mình sẽ đến</label>
           <label class="choice"><input type="radio" name="rsvp" id="rsvp-maybe" value="maybe"> Mình sẽ cố gắng sắp xếp</label>
         </div>
-        <label class="field"><span>Họ và tên</span><input id="f-name" autocomplete="name" required maxlength="80" placeholder="Nguyễn Văn A"></label>
+        <label class="field" id="name-field"><span>Họ và tên</span><input id="f-name" autocomplete="name" required maxlength="80" placeholder="Nguyễn Văn A"></label>
         <div class="stepper" id="stepper">
           <span>Số người dự kiến tham dự</span>
           <button type="button" id="minus" aria-label="Bớt một người">−</button>
@@ -214,8 +214,11 @@ img { max-width: 100%; }
     if (raw.startsWith("ten=")) return raw.slice(4).trim().slice(0, 60) || "Quý Khách";
     return GUESTS[raw.toLowerCase()] || "Quý Khách";
   }
+  // Mở bằng link riêng thì đã biết tên khách: ẩn ô nhập tên, dùng tên trên link
+  const isPersonal = () => guestEl.textContent !== "Quý Khách";
   function showGuest() {
     guestEl.textContent = guestName();
+    document.getElementById("name-field").hidden = isPersonal();
     renderMsg();
   }
 
@@ -235,7 +238,7 @@ img { max-width: 100%; }
   function readForm() {
     return {
       attend: attending(),
-      name: $("f-name").value.trim(),
+      name: isPersonal() ? guestEl.textContent : $("f-name").value.trim(),
       count,
     };
   }
@@ -258,7 +261,7 @@ img { max-width: 100%; }
       : `Đã ghi nhận ${f.name} sẽ cố gắng sắp xếp, dự kiến ${f.count} người.`;
   }
   function showFallback() { renderMsg(); fallback.hidden = false; }
-  $("edit").onclick = () => { done.hidden = true; form.hidden = false; $("f-name").focus(); };
+  $("edit").onclick = () => { done.hidden = true; form.hidden = false; if (!isPersonal()) $("f-name").focus(); };
 
   form.addEventListener("submit", async e => {
     e.preventDefault();
