@@ -56,10 +56,11 @@ body {
 .date-top { font-weight: 600; color: var(--rose); letter-spacing: .16em; font-variant-numeric: tabular-nums; }
 .date-top span { margin-inline: 10px; }
 .eyebrow { margin: 0; font-size: 11.5px; font-weight: 600; letter-spacing: .26em; text-transform: uppercase; color: var(--muted); }
+.top { width: 100%; container-type: inline-size; }
 h1 {
   margin: 4px 0 0; font-family: var(--f-display); font-weight: 600;
-  font-size: clamp(28px, 7.4vw, 38px); line-height: 1.2; letter-spacing: .02em;
-  color: var(--rose); text-transform: uppercase; text-wrap: balance;
+  font-size: clamp(15px, 7.6cqi, 34px); line-height: 1.2; letter-spacing: .01em;
+  color: var(--rose); text-transform: uppercase; white-space: nowrap;
 }
 h1 .amp { font-style: italic; font-weight: 400; text-transform: none; }
 .couple-art { width: 100%; max-width: 100%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 62%; border-radius: 14px; display: block; }
@@ -71,10 +72,6 @@ h1 .amp { font-style: italic; font-weight: 400; text-transform: none; }
 .guest { font-family: var(--f-display); font-size: 28px; font-weight: 600; margin: 4px 0; color: var(--ink); }
 .invite .sub { font-family: var(--f-display); font-style: italic; color: var(--muted); }
 .verse { margin: 0; font-family: var(--f-display); font-style: italic; font-size: 18px; line-height: 1.55; color: var(--ink); max-width: 34ch; text-wrap: balance; }
-.gallery { width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.gallery figure { margin: 0; border-radius: 12px; overflow: hidden; background: var(--ground); aspect-ratio: 2 / 3; max-width: 100%; }
-.gallery figure.wide { grid-column: 1 / -1; aspect-ratio: 4 / 5; }
-.gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
 .verse cite { display: block; margin-top: 6px; font-family: var(--f-body); font-style: normal; font-size: 12.5px; color: var(--rose); letter-spacing: .1em; }
 .block { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 6px; padding-top: 28px; border-top: 1px dashed var(--rose-soft); }
 .block h2 { margin: 0 0 4px; font-family: var(--f-display); font-weight: 600; font-size: 21px; letter-spacing: .1em; text-transform: uppercase; color: var(--rose); }
@@ -96,10 +93,7 @@ h1 .amp { font-style: italic; font-weight: 400; text-transform: none; }
 .btn.ghost { background: none; color: var(--rose); border: 1px solid var(--rose); }
 .btn.ghost:hover { background: var(--ground); }
 .btn:focus-visible, .choice:focus-within, .stepper button:focus-visible { outline: 2px solid var(--rose); outline-offset: 3px; }
-.countdown { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin-top: 6px; }
-.countdown div { min-width: 62px; padding: 10px 4px; background: var(--ground); border-radius: 12px; display: flex; flex-direction: column; }
-.countdown b { font-family: var(--f-display); font-size: 26px; color: var(--rose); line-height: 1.1; font-variant-numeric: tabular-nums; }
-.countdown span { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); }
+.thanks { margin: 8px 0 0; font-family: var(--f-display); font-style: italic; font-size: 18px; color: var(--rose); text-wrap: balance; }
 .closing { margin: 0; font-family: var(--f-display); font-style: italic; font-size: 18px; color: var(--ink); max-width: 30ch; text-wrap: balance; }
 .rsvp { width: 100%; display: flex; flex-direction: column; gap: 14px; align-items: center; }
 .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; width: 100%; }
@@ -137,9 +131,11 @@ img { max-width: 100%; }
     <img class="sprig" src="floral.webp" alt="">
     <div class="top">
       <div class="date-top">27<span>•</span>12<span>•</span>2026</div>
-      <p class="eyebrow">Thiệp cưới</p>
+      <p class="eyebrow">Lễ Thành Hôn</p>
       <h1>Thanh Tùng <span class="amp">&amp;</span> Xuân Lan</h1>
     </div>
+
+    <p class="verse">“Xin Chúa đoái thương con và em con, cho chúng con được chung sống bên nhau đến tuổi già.”<cite>Tb 8,7</cite></p>
 
     <img class="couple-art" src="anh-1.jpg" alt="Thanh Tùng và Xuân Lan trong bộ ảnh cưới" fetchpriority="high">
 
@@ -150,17 +146,6 @@ img { max-width: 100%; }
       <p class="guest" id="guest">Quý Khách</p>
       <span class="sub">Đến chung vui cùng gia đình chúng mình</span>
     </div>
-
-    <p class="verse">“Xin Chúa đoái thương con và em con, cho chúng con được chung sống bên nhau đến tuổi già.”<cite>Tb 8,7</cite></p>
-
-    <section class="block" id="album" aria-labelledby="album-h">
-      <h2 id="album-h">Khoảnh Khắc</h2>
-      <div class="gallery">
-        <figure><img src="anh-2.jpg" alt="Cô dâu chú rể khiêu vũ" loading="lazy"></figure>
-        <figure><img src="anh-3.jpg" alt="Cô dâu chú rể cầu nguyện trước tượng Đức Mẹ" loading="lazy"></figure>
-        <figure class="wide"><img src="anh-4.jpg" alt="Cô dâu chú rể trước tượng Thánh Giuse" loading="lazy"></figure>
-      </div>
-    </section>
 
     <section class="block">
       <h2>Thánh Lễ Hôn Phối</h2>
@@ -183,17 +168,7 @@ img { max-width: 100%; }
       <a class="btn" href="https://www.google.com/maps/search/?api=1&amp;query=The+Adora+Luxury+198+Ho%C3%A0ng+V%C4%83n+Th%E1%BB%A5" target="_blank" rel="noopener">Xem đường đi</a>
     </section>
 
-    <section class="block">
-      <p class="eyebrow">Còn lại đến Thánh lễ</p>
-      <div class="countdown">
-        <div><b id="cd-d">--</b><span>Ngày</span></div>
-        <div><b id="cd-h">--</b><span>Giờ</span></div>
-        <div><b id="cd-m">--</b><span>Phút</span></div>
-        <div><b id="cd-s">--</b><span>Giây</span></div>
-      </div>
-    </section>
-
-    <p class="closing">Sự hiện diện của Quý Khách là niềm vinh hạnh cho gia đình chúng tôi.</p>
+    <p class="closing">Sự hiện diện của Quý Khách là niềm vinh hạnh cho gia đình chúng mình.</p>
 
     <section class="block rsvp" aria-labelledby="rsvp-h">
       <h2 id="rsvp-h">Xác Nhận Tham Dự</h2>
@@ -203,8 +178,6 @@ img { max-width: 100%; }
           <label class="choice"><input type="radio" name="rsvp" id="rsvp-maybe" value="maybe"> Mình sẽ cố gắng sắp xếp</label>
         </div>
         <label class="field"><span>Họ và tên</span><input id="f-name" autocomplete="name" required maxlength="80" placeholder="Nguyễn Văn A"></label>
-        <label class="field"><span>Số điện thoại</span><input id="f-phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="20" placeholder="0901 234 567"></label>
-        <label class="field"><span>Địa chỉ nhận thiệp tận tay</span><textarea id="f-address" rows="2" autocomplete="street-address" maxlength="200" placeholder="Số nhà, đường, phường, quận"></textarea></label>
         <div class="stepper" id="stepper">
           <span>Số người dự kiến tham dự</span>
           <button type="button" id="minus" aria-label="Bớt một người">−</button>
@@ -224,6 +197,7 @@ img { max-width: 100%; }
         <p class="msg" id="msg"></p>
         <button class="btn" type="button" id="copy">Sao chép lời nhắn</button>
       </div>
+      <p class="thanks">Thanh Tùng &amp; Xuân Lan xin cảm ơn Quý Khách.</p>
     </section>
 
   </div>
@@ -245,17 +219,6 @@ img { max-width: 100%; }
     renderMsg();
   }
 
-  const target = Date.UTC(2026, 11, 27, 3, 0, 0); // 10:00 giờ VN
-  const pad = n => String(n).padStart(2, "0");
-  const cd = ["d", "h", "m", "s"].map(k => document.getElementById("cd-" + k));
-  function tick() {
-    let s = Math.max(0, Math.floor((target - Date.now()) / 1000));
-    const d = Math.floor(s / 86400); s %= 86400;
-    const h = Math.floor(s / 3600); s %= 3600;
-    cd[0].textContent = d; cd[1].textContent = pad(h);
-    cd[2].textContent = pad(Math.floor(s / 60)); cd[3].textContent = pad(s % 60);
-  }
-  tick(); setInterval(tick, 1000);
 
   // ---- Xác nhận tham dự ----
   const $ = id => document.getElementById(id);
@@ -265,6 +228,7 @@ img { max-width: 100%; }
   // Địa chỉ lưu xác nhận trên VPS (server.js). Không gửi được thì khách nhận lời nhắn để tự gửi qua Zalo.
   const API_URL = "api/rsvp";
   const SAVED_KEY = "rsvp-tung-lan";
+  let savedId = "";  // khách sửa lại thì cập nhật đúng dòng cũ
 
   const attending = () => $("rsvp-yes").checked;
   function setCount(n) { count = Math.max(1, Math.min(20, n)); countEl.textContent = count; }
@@ -272,8 +236,6 @@ img { max-width: 100%; }
     return {
       attend: attending(),
       name: $("f-name").value.trim(),
-      phone: $("f-phone").value.trim(),
-      address: $("f-address").value.trim(),
       count,
     };
   }
@@ -282,19 +244,18 @@ img { max-width: 100%; }
     const who = f.name || (guestEl.textContent === "Quý Khách" ? "Mình" : guestEl.textContent.replace(/^Bạn /, ""));
     msg.textContent = (f.attend
       ? `${who} xác nhận sẽ đến đám cưới Tùng & Lan ngày 27.12.2026, dự kiến ${f.count} người.`
-      : `${who} sẽ cố gắng sắp xếp đến đám cưới Tùng & Lan ngày 27.12.2026, dự kiến ${f.count} người.`) +
-      (f.phone ? ` SĐT: ${f.phone}.` : "") + (f.address ? ` Địa chỉ nhận thiệp: ${f.address}.` : "");
+      : `${who} sẽ cố gắng sắp xếp đến đám cưới Tùng & Lan ngày 27.12.2026, dự kiến ${f.count} người.`);
   }
   document.querySelectorAll('input[name="rsvp"]').forEach(r => r.addEventListener("change", renderMsg));
-  ["f-name", "f-phone", "f-address"].forEach(id => $(id).addEventListener("input", renderMsg));
+  ["f-name"].forEach(id => $(id).addEventListener("input", renderMsg));
   $("minus").onclick = () => { setCount(count - 1); renderMsg(); };
   $("plus").onclick = () => { setCount(count + 1); renderMsg(); };
 
   function showDone(f) {
     form.hidden = true; fallback.hidden = true; done.hidden = false;
     $("done-text").textContent = f.attend
-      ? `Đã ghi nhận ${f.name} sẽ đến, dự kiến ${f.count} người. Thiệp sẽ được gửi đến: ${f.address}.`
-      : `Đã ghi nhận ${f.name} sẽ cố gắng sắp xếp, dự kiến ${f.count} người. Thiệp sẽ được gửi đến: ${f.address}.`;
+      ? `Đã ghi nhận ${f.name} sẽ đến, dự kiến ${f.count} người.`
+      : `Đã ghi nhận ${f.name} sẽ cố gắng sắp xếp, dự kiến ${f.count} người.`;
   }
   function showFallback() { renderMsg(); fallback.hidden = false; }
   $("edit").onclick = () => { done.hidden = true; form.hidden = false; $("f-name").focus(); };
@@ -304,16 +265,14 @@ img { max-width: 100%; }
     const f = readForm();
     err.hidden = true;
     if (!f.name) { err.textContent = "Bạn điền họ và tên giúp mình nhé."; err.hidden = false; $("f-name").focus(); return; }
-    if (!/^[0-9+ .()-]{8,20}$/.test(f.phone)) { err.textContent = "Số điện thoại chưa đúng, bạn kiểm tra lại giúp mình."; err.hidden = false; $("f-phone").focus(); return; }
-    if (!f.address) { err.textContent = "Bạn điền địa chỉ để Tùng & Lan gửi thiệp tận tay nhé."; err.hidden = false; $("f-address").focus(); return; }
     const btn = $("submit"); btn.disabled = true; btn.textContent = "Đang gửi…";
     try {
       const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          attend: f.attend ? "yes" : "maybe", name: f.name, phone: f.phone,
-          address: f.address, count: f.count, invitedAs: guestEl.textContent,
+          attend: f.attend ? "yes" : "maybe", name: f.name,
+          count: f.count, invitedAs: guestEl.textContent, id: savedId,
         }),
       });
       if (res.status === 400 || res.status === 429) {
@@ -323,7 +282,9 @@ img { max-width: 100%; }
         return;
       }
       if (!res.ok) throw new Error("HTTP " + res.status);
-      try { localStorage.setItem(SAVED_KEY, JSON.stringify(f)); } catch (e3) {}
+      const j = await res.json().catch(() => ({}));
+      if (j.id) savedId = j.id;
+      try { localStorage.setItem(SAVED_KEY, JSON.stringify({ ...f, id: savedId })); } catch (e3) {}
       showDone(f);
     } catch (e2) {
       showFallback();
@@ -334,7 +295,7 @@ img { max-width: 100%; }
   try {
     const saved = JSON.parse(localStorage.getItem(SAVED_KEY) || "null");
     if (saved && saved.name) {
-      $("f-name").value = saved.name; $("f-phone").value = saved.phone || ""; $("f-address").value = saved.address || "";
+      $("f-name").value = saved.name; savedId = saved.id || "";
       $(saved.attend ? "rsvp-yes" : "rsvp-maybe").checked = true; setCount(Number(saved.count) || 1);
       showDone(saved);
     }
@@ -353,14 +314,6 @@ img { max-width: 100%; }
   });
 
 
-  // Ảnh nào chưa có file thì ẩn khung; không có ảnh nào thì ẩn cả album.
-  const figs = [...document.querySelectorAll("#album figure")];
-  let missing = 0;
-  figs.forEach(fig => {
-    const img = fig.querySelector("img");
-    const miss = () => { fig.hidden = true; if (++missing === figs.length) $("album").hidden = true; };
-    if (img.complete && img.naturalWidth === 0) miss(); else img.addEventListener("error", miss);
-  });
 
   window.addEventListener("hashchange", showGuest);
   showGuest();

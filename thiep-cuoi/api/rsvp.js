@@ -22,14 +22,14 @@ module.exports = async (req, res) => {
     if (v.error) return L.send(res, 400, { error: v.error });
 
     const now = new Date().toISOString();
-    // Cùng số điện thoại thì cập nhật dòng cũ (khách sửa thông tin)
-    const phone = L.normPhone(v.value.phone);
-    const existing = (await L.all()).find(r => L.normPhone(r.phone) === phone);
+    // Khách bấm "Sửa thông tin" thì thiệp gửi kèm mã cũ: cập nhật đúng dòng đó
+    const id = /^[0-9a-f-]{36}$/.test(String(body.id || "")) ? String(body.id) : "";
+    const existing = id ? await L.get(id) : null;
     const rec = existing
       ? { ...existing, ...v.value, updatedAt: now }
       : { id: crypto.randomUUID(), ...v.value, delivered: false, note: "", createdAt: now, updatedAt: now };
     await L.put(rec);
-    return L.send(res, 200, { ok: true });
+    return L.send(res, 200, { ok: true, id: rec.id });
   } catch (e) {
     console.error(e);
     return L.send(res, e.status || 500, { error: "Chưa lưu được, bạn thử lại sau nhé." });

@@ -95,8 +95,6 @@ function validate(b) {
     invitedAs: clean(b.invitedAs, 60),
   };
   if (!r.name) return { error: "Bạn điền họ và tên giúp mình nhé." };
-  if (!/^[0-9+ .()-]{8,20}$/.test(r.phone) || normPhone(r.phone).length < 8) return { error: "Số điện thoại chưa đúng, bạn kiểm tra lại giúp mình." };
-  if (!r.address) return { error: "Bạn điền địa chỉ để Tùng & Lan gửi thiệp tận tay nhé." };
   return { value: r };
 }
 

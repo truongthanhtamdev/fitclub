@@ -137,7 +137,7 @@ input[type="search"] { flex: 1 1 220px; }
 
   <section class="panel" aria-label="Danh sách">
     <div class="row">
-      <input type="search" id="q" placeholder="Tìm tên, số điện thoại, địa chỉ">
+      <input type="search" id="q" placeholder="Tìm theo tên khách">
     </div>
     <div class="chips" role="group" aria-label="Lọc">
       <button class="chip" type="button" data-f="all" aria-pressed="true">Tất cả</button>
@@ -239,8 +239,8 @@ input[type="search"] { flex: 1 1 220px; }
       <article class="guest ${r.delivered ? "done" : ""}" data-id="${esc(r.id)}">
         <div>
           <div class="g-name">${esc(r.name)} <span class="pill ${r.attend === "yes" ? "yes" : "maybe"}">${r.attend === "yes" ? "Chắc chắn đến" : "Cố gắng sắp xếp"}</span></div>
-          <div class="g-meta"><a href="${esc(telHref(r.phone))}">${esc(r.phone)}</a><span>Gửi lúc ${esc(fmt(r.updatedAt))}</span>${r.invitedAs && r.invitedAs !== "Quý Khách" ? `<span>Mời: ${esc(r.invitedAs)}</span>` : ""}</div>
-          <div class="g-addr">${esc(r.address)}</div>
+          <div class="g-meta">${r.phone ? `<a href="${esc(telHref(r.phone))}">${esc(r.phone)}</a>` : ""}<span>Gửi lúc ${esc(fmt(r.updatedAt))}</span>${r.invitedAs && r.invitedAs !== "Quý Khách" ? `<span>Mời: ${esc(r.invitedAs)}</span>` : ""}</div>
+          ${r.address ? `<div class="g-addr">${esc(r.address)}</div>` : ""}
         </div>
         <div class="g-count"><b>${esc(r.count)}</b><span>người</span></div>
         <div class="g-actions">

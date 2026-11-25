@@ -123,8 +123,6 @@ function validate(b) {
     invitedAs: clean(b.invitedAs, 60),
   };
   if (!r.name) return { error: "Bạn điền họ và tên giúp mình nhé." };
-  if (!/^[0-9+ .()-]{8,20}$/.test(r.phone) || normPhone(r.phone).length < 8) return { error: "Số điện thoại chưa đúng, bạn kiểm tra lại giúp mình." };
-  if (!r.address) return { error: "Bạn điền địa chỉ để Tùng & Lan gửi thiệp tận tay nhé." };
   return { value: r };
 }
 
@@ -156,12 +154,13 @@ async function handle(req, res) {
     const v = validate(body || {});
     if (v.error) return send(res, 400, { error: v.error });
     const now = new Date().toISOString();
-    // Cùng số điện thoại thì cập nhật dòng cũ (khách sửa thông tin), không tạo dòng mới.
-    const existing = rsvps.find(r => normPhone(r.phone) === normPhone(v.value.phone));
-    if (existing) Object.assign(existing, v.value, { updatedAt: now });
-    else rsvps.push({ id: crypto.randomUUID(), ...v.value, delivered: false, note: "", createdAt: now, updatedAt: now });
+    // Khách bấm "Sửa thông tin" thì thiệp gửi kèm mã cũ: cập nhật đúng dòng đó
+    const existing = body.id ? rsvps.find(r => r.id === String(body.id)) : null;
+    let id;
+    if (existing) { Object.assign(existing, v.value, { updatedAt: now }); id = existing.id; }
+    else { id = crypto.randomUUID(); rsvps.push({ id, ...v.value, delivered: false, note: "", createdAt: now, updatedAt: now }); }
     await save();
-    return send(res, 200, { ok: true });
+    return send(res, 200, { ok: true, id });
   }
 
   // Trang quản trị (tự có form đăng nhập) và API quản trị (cần đăng nhập)
