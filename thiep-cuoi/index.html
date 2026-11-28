@@ -188,7 +188,7 @@ img { max-width: 100%; }
         <button class="btn" type="submit" id="submit">Gửi xác nhận</button>
       </form>
       <div class="done" id="done" hidden>
-        <p class="done-title">Cảm ơn bạn đã xác nhận!</p>
+        <p class="done-title">Cảm ơn Quý Khách đã xác nhận!</p>
         <p class="hint" id="done-text"></p>
         <button class="btn ghost" type="button" id="edit">Sửa thông tin</button>
       </div>
@@ -230,7 +230,9 @@ img { max-width: 100%; }
   const form = $("rsvp-form"), done = $("done"), fallback = $("fallback"), err = $("form-error");
   // Địa chỉ lưu xác nhận trên VPS (server.js). Không gửi được thì khách nhận lời nhắn để tự gửi qua Zalo.
   const API_URL = "api/rsvp";
-  const SAVED_KEY = "rsvp-tung-lan";
+  // Ghi nhớ lần xác nhận theo từng link khách (không dùng chung cho cả máy)
+  const savedKey = () => "rsvp-tung-lan:" + guestEl.textContent;
+  try { localStorage.removeItem("rsvp-tung-lan"); } catch (e) {}  // dọn kiểu lưu cũ
   let savedId = "";  // khách sửa lại thì cập nhật đúng dòng cũ
 
   const attending = () => $("rsvp-yes").checked;
@@ -287,22 +289,28 @@ img { max-width: 100%; }
       if (!res.ok) throw new Error("HTTP " + res.status);
       const j = await res.json().catch(() => ({}));
       if (j.id) savedId = j.id;
-      try { localStorage.setItem(SAVED_KEY, JSON.stringify({ ...f, id: savedId })); } catch (e3) {}
+      try { localStorage.setItem(savedKey(), JSON.stringify({ ...f, id: savedId })); } catch (e3) {}
       showDone(f);
     } catch (e2) {
       showFallback();
     } finally { btn.disabled = false; btn.textContent = "Gửi xác nhận"; }
   });
 
-  // Khách đã gửi trên máy này thì hiện lại thông tin đã gửi.
-  try {
-    const saved = JSON.parse(localStorage.getItem(SAVED_KEY) || "null");
-    if (saved && saved.name) {
-      $("f-name").value = saved.name; savedId = saved.id || "";
-      $(saved.attend ? "rsvp-yes" : "rsvp-maybe").checked = true; setCount(Number(saved.count) || 1);
-      showDone(saved);
-    }
-  } catch (e) {}
+  // Khách này đã gửi trên máy này thì hiện lại thông tin đã gửi; khách khác thì hiện form trống.
+  function restoreSaved() {
+    savedId = ""; form.hidden = false; done.hidden = true; fallback.hidden = true; err.hidden = true;
+    $("rsvp-yes").checked = true; setCount(1); $("f-name").value = "";
+    try {
+      const saved = JSON.parse(localStorage.getItem(savedKey()) || "null");
+      if (saved && saved.name) {
+        if (!isPersonal()) $("f-name").value = saved.name;
+        savedId = saved.id || "";
+        $(saved.attend ? "rsvp-yes" : "rsvp-maybe").checked = true; setCount(Number(saved.count) || 1);
+        showDone(saved);
+      }
+    } catch (e) {}
+    renderMsg();
+  }
 
 
   const copyBtn = document.getElementById("copy");
@@ -318,8 +326,9 @@ img { max-width: 100%; }
 
 
 
-  window.addEventListener("hashchange", showGuest);
+  window.addEventListener("hashchange", () => { showGuest(); restoreSaved(); });
   showGuest();
+  restoreSaved();
 })();
 </script>
 </body>
